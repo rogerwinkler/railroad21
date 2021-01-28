@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="271.45255mm"
+   height="133.39323mm"
+   viewBox="0 0 271.45255 133.39323"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.0.1 (0767f8302a, 2020-10-17)"
+   sodipodi:docname="r21-logo-big.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.5"
+     inkscape:cx="594.50279"
+     inkscape:cy="311.17543"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:window-width="1330"
+     inkscape:window-height="921"
+     inkscape:window-x="86"
+     inkscape:window-y="106"
+     inkscape:window-maximized="0"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0">
+    <sodipodi:guide
+       position="253.20214,97.028116"
+       orientation="1,0"
+       id="guide1070" />
+    <sodipodi:guide
+       position="17.580666,66.055942"
+       orientation="1,0"
+       id="guide1072" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-16.689316,-63.200001)">
+    <rect
+       style="fill:#630a10;fill-opacity:1;stroke:#fcf0c8;stroke-width:0.273238;stroke-opacity:1"
+       id="rect1064"
+       width="271.17932"
+       height="133.12"
+       x="16.825935"
+       y="63.33662" />
+    <path
+       id="rect833-4-3"
+       style="fill:#fcf0c8;fill-opacity:1;stroke:#fcf0c8;stroke-width:0.855389;stroke-opacity:1"
+       d="m 176.47266,318.15234 -20.31836,75.83008 h 276.0039 l -6.3125,23.55664 H 149.84375 l -20.32031,75.83008 h 218.95117 l 27.58398,102.94336 h 75.82813 L 424.30273,493.36914 h 57.05469 l 46.94922,-175.2168 h -73.83008 z"
+       transform="scale(0.26458333)" />
+    <path
+       id="rect833-4-1-1"
+       style="fill:#fcf0c8;fill-opacity:1;stroke:#fcf0c8;stroke-width:0.599469;stroke-opacity:1"
+       d="m 628.67188,376.30859 -19.87696,60.29883 h 204.87696 l -6.19727,18.80078 H 611.52539 537.2793 l -19.89258,60.35157 -26.07422,79.09961 h 72.24414 2 270.19727 l 19.89257,-60.35157 H 585.45117 l 6.17969,-18.74804 h 197.95117 72.24414 l 45.96875,-139.45118 h -72.24414 z"
+       transform="scale(0.26458333)" />
+    <rect
+       style="fill:#fcf0c8;fill-opacity:1;stroke:#fcf0c8;stroke-width:0.203748;stroke-opacity:1"
+       id="rect833-4-3-2-9"
+       width="60.885433"
+       height="19.64414"
+       x="-165.72054"
+       y="283.06781"
+       ry="0"
+       transform="matrix(0.31306768,-0.94973082,1,0,0,0)" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:25.2993px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:3.38153px;fill:#fcf0c8;fill-opacity:1;stroke-width:0.350226"
+       x="23.360958"
+       y="241.83144"
+       id="text1068"
+       transform="scale(1.3236862,0.75546604)"><tspan
+         sodipodi:role="line"
+         id="tspan1066"
+         x="23.360958"
+         y="241.83144"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.2993px;font-family:'GFS Baskerville';-inkscape-font-specification:'GFS Baskerville';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#fcf0c8;fill-opacity:1;stroke-width:0.350226">RAILROAD21</tspan></text>
+  </g>
+</svg>

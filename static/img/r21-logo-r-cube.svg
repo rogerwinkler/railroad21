@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="130mm"
+   height="130mm"
+   viewBox="0 0 130 129.99999"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.0.1 (0767f8302a, 2020-10-17)"
+   sodipodi:docname="r21-logo-r-cube.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.5"
+     inkscape:cx="474.47149"
+     inkscape:cy="284.43037"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:window-width="1330"
+     inkscape:window-height="921"
+     inkscape:window-x="86"
+     inkscape:window-y="106"
+     inkscape:window-maximized="0"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-22.464958,-70.276298)">
+    <rect
+       style="fill:#630a10;fill-opacity:1;stroke:#fcf0c8;stroke-width:0.18944;stroke-opacity:1"
+       id="rect1064"
+       width="132.20731"
+       height="131.25058"
+       x="21.667202"
+       y="69.850105" />
+    <path
+       id="rect833-4-3"
+       style="fill:#fcf0c8;fill-opacity:1;stroke:#fcf0c8;stroke-width:0.226322;stroke-opacity:1"
+       d="m 46.691963,101.31216 -5.375899,20.06338 h 73.026026 l -1.67018,6.23269 H 39.646397 l -5.376415,20.06338 h 57.93083 l 7.298261,27.23709 h 20.062857 l -7.29826,-27.23709 h 15.09572 l 12.42198,-46.35945 h -19.53421 z" />
+  </g>
+</svg>
