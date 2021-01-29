@@ -96,6 +96,11 @@ export default {
 </script>
 
 <style lang="scss">
+.container {
+  background-image: url(/img/grid.png);
+  background-repeat: repeat;
+}
+
 .img-logo {
   margin-left: -10px;
 }

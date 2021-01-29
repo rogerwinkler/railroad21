@@ -1,6 +1,6 @@
 # Railroad21
 
-_Railroad21_ is railroad game. As a PWA it can be attached to mobile's homescreens or run in the browser.
+_Railroad21_ is a railroad game. As a PWA it can be attached to mobile's homescreens or run in the browser.
 
 ## Status
 
@@ -50,13 +50,12 @@ _**Note**: This roadmap is subject to change. Functionalities may be added, remo
 - Simple images and graphics to represent locomotives, wagons, tracks and symbols. Quick and dirty approach.
 - The game will provide simple, standard layouts (only few).
 - One (none) or only a few game levels.
-- Control only through traffic lights (stop & go).
+- Control through traffic lights (stop & go) and track switches.
 - Limited to two trains with two different speeds and two different lengths.
 
 ### Release 1.1
 
 - Add more game levels, more layouts, more complex layouts.
-- Track switches are introduced to steer the trains.
 - Allow more trains.
 
 ### Release 1.2
