@@ -26,8 +26,8 @@ export default {
       tileY: null, // current tile where train is at
       currentPos: 0, // current pos of train in current tile (0-3)
       stopped: false,
-      intervalInMs: 10,
-      distPerIntervalInPx: 3,
+      intervalInMs: 8,
+      distPerIntervalInPx: 2,
     };
   },
 
@@ -54,9 +54,9 @@ export default {
     // Set default layout
     createLayout(layout1, ".content");
     this.layout = layout1;
-    this.train = createTrain(".content", 50, 400);
+    this.train = createTrain(".content", 50, 200);
     this.tileX = 0;
-    this.tileY = 3;
+    this.tileY = 1;
   },
 
   //-------------------------------------------------
@@ -110,7 +110,7 @@ export default {
     //-------------------------------------------------
 
     move() {
-      console.log("move");
+      console.log("index.vue::move");
       let tile;
       let segments;
       let idx;
@@ -119,11 +119,14 @@ export default {
       tile = this.layout[this.tileY][this.tileX];
       console.log("tile=", tile);
       this.currentPos = this.getNewPos(this.currentPos);
+      // Find all segments leading from currentPos.
+      // Segments returned by findSegmentsFromPos are
+      // directed starting from currentPos...
       segments = findSegmentsFromPos(tile, this.currentPos);
-      console.log("segments=", segments);
+      // console.log("segments=", segments);
       // Randomly select a segment if multiple segments...
       idx = getRandomInt(0, segments.length - 1);
-      console.log("idx=", idx);
+      // console.log("idx=", idx);
       coordsFrom = posOnTileToCoords(this.tileX, this.tileY, this.currentPos);
       console.log("coordsFrom=", coordsFrom);
       coordsTo = posOnTileToCoords(
@@ -135,6 +138,7 @@ export default {
 
       moveTrain(
         this.train,
+        segments[idx], // This segment starts with currentPos!!!
         coordsFrom.x,
         coordsFrom.y,
         coordsTo.x,
@@ -161,9 +165,9 @@ export default {
 
       switch (this.layout) {
         case layout1:
-          this.train = createTrain(".content", 50, 400);
+          this.train = createTrain(".content", 50, 200);
           this.tileX = 0;
-          this.tileY = 3;
+          this.tileY = 1;
           break;
         case layout2:
           this.train = createTrain(".content", 50, 200);

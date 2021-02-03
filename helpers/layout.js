@@ -699,8 +699,8 @@ export function createTrain(containerSelector, x, y) {
   console.log("createTrain");
   // Train offsets to center train on tracks
   // depending on train.svg definition...
-  trainTranslateX = -18;
-  trainTranslateY = -10;
+  trainTranslateX = -50;
+  trainTranslateY = -50;
   const content = document.querySelector(containerSelector);
   let train = document.createElement("img");
   train.classList.add("train");
@@ -712,6 +712,10 @@ export function createTrain(containerSelector, x, y) {
       y + trainTranslateY
     }px;`
   );
+  // train.setAttribute(
+  //   "style",
+  //   `position:absolute;left:0px;top:0px;transform:rotate(270deg)`
+  // );
   content.appendChild(train);
   return train;
 }
@@ -723,6 +727,7 @@ var endReachedEvent = new Event("endreached");
 /**
  *
  * @param {htmlElem} train The HTML element to be moved on the tracks.
+ * @param {String} segment Segment vector from start to end point (directed!!!).
  * @param {number} x1 X-coordinate of starting point (x1, y1)
  * @param {number} y1 Y-coordinate of starting point (x1, y1)
  * @param {number} x2 X-coordinate of end point (x2, y2)
@@ -732,6 +737,7 @@ var endReachedEvent = new Event("endreached");
  */
 export function moveTrain(
   train,
+  segment,
   x1,
   y1,
   x2,
@@ -739,7 +745,7 @@ export function moveTrain(
   intervalInMs,
   distPerIntervalInPx
 ) {
-  console.log("moveTrain");
+  console.log("layout.js::moveTrain::segment=", segment);
 
   // The radius depends on the dimensions in the actual graphics
   // file (.svg) and possible scaling applied in layouts. Its the
@@ -753,74 +759,77 @@ export function moveTrain(
   let direction = ""; // direction in which train is headed. One of ('straight', 'arc-left', 'arc-right').
   let incX; // Increment in px on x-axis a train travels during an 'intervalInMs'.
   let incY; // Increment in px on y-axis a train travels during
+  let degXY = 0; // The angle indicating the position of the train when on a circle segment.
+  let rotationInDeg = 0; // The rotation of the train at pos degXY.
   const scaleInc = 1; // Scale factor to be applied, must correspond with the scaling factor of the layouts.
-  let segment = ""; // The segment the train will travel.
-  // Alpha is the angle of the line that goes through (x1, y1) and (x2, y2)
-  // and the x-axis. It is used to calculate 'direction', the 'segment' and
-  // the increments 'incX' and 'incY'...
-  const alpha = (180 * Math.atan((y2 - y1) / (x2 - x1))) / Math.PI;
 
   console.log(`x1=${x1}, y1=${y1}, x2=${x2}, y2=${y2}`);
-  console.log("alpha=", alpha);
 
-  if (alpha === 0 && x1 < x2) {
-    direction = "straight";
-    segment = "w->o";
-    incX = distPerIntervalInPx * scaleInc;
-    incY = 0;
-  } else if (alpha === 0 && x1 > x2) {
-    direction = "straight";
-    segment = "o->w";
-    incX = -distPerIntervalInPx * scaleInc;
-    incY = 0;
-  } else if (alpha === 90) {
-    direction = "straight";
-    segment = "n->s";
-    incX = 0;
-    incY = distPerIntervalInPx * scaleInc;
-  } else if (alpha === -90) {
-    direction = "straight";
-    segment = "s->n";
-    incX = 0;
-    incY = -distPerIntervalInPx * scaleInc;
-  } else if (alpha > 0) {
-    direction = "arc-left";
-    if (x1 < x2 && y1 < y2) {
-      segment = "n->o";
-      incX = distPerIntervalInPx * scaleInc;
+  switch (segment) {
+    case "0-2":
+      direction = "straight";
+      incX = 0;
       incY = distPerIntervalInPx * scaleInc;
-    } else if (x1 < x2 && y1 > y2) {
-      segment = "w->n";
-      incX = distPerIntervalInPx * scaleInc;
+      rotationInDeg = 180;
+      break;
+    case "2-0":
+      direction = "straight";
+      incX = 0;
       incY = -distPerIntervalInPx * scaleInc;
-    } else if (x1 > x2 && y1 < y2) {
-      segment = "o->s";
+      rotationInDeg = 0;
+      break;
+    case "3-1":
+      direction = "straight";
+      incX = distPerIntervalInPx * scaleInc;
+      incY = 0;
+      rotationInDeg = 90;
+      break;
+    case "1-3":
+      direction = "straight";
+      incX = -distPerIntervalInPx * scaleInc;
+      incY = 0;
+      rotationInDeg = 270;
+      break;
+    case "0-3":
+      direction = "arc-right";
       incX = -distPerIntervalInPx * scaleInc;
       incY = distPerIntervalInPx * scaleInc;
-    } else if (x1 > x2 && y1 > y2) {
-      segment = "s->w";
-      incX = -distPerIntervalInPx * scaleInc;
-      incY = -distPerIntervalInPx * scaleInc;
-    }
-  } else if (alpha < 0) {
-    direction = "arc-right";
-    if (x1 < x2 && y1 < y2) {
-      segment = "w->s";
+      break;
+    case "3-2":
+      direction = "arc-right";
       incX = distPerIntervalInPx * scaleInc;
       incY = distPerIntervalInPx * scaleInc;
-    } else if (x1 < x2 && y1 > y2) {
-      segment = "s->o";
+      break;
+    case "2-1":
+      direction = "arc-right";
       incX = distPerIntervalInPx * scaleInc;
       incY = -distPerIntervalInPx * scaleInc;
-    } else if (x1 > x2 && y1 < y2) {
-      segment = "n->w";
-      incX = -distPerIntervalInPx * scaleInc;
-      incY = distPerIntervalInPx * scaleInc;
-    } else if (x1 > x2 && y1 > y2) {
-      segment = "o->n";
+      break;
+    case "1-0":
+      direction = "arc-right";
       incX = -distPerIntervalInPx * scaleInc;
       incY = -distPerIntervalInPx * scaleInc;
-    }
+      break;
+    case "0-1":
+      direction = "arc-left";
+      incX = distPerIntervalInPx * scaleInc;
+      incY = distPerIntervalInPx * scaleInc;
+      break;
+    case "1-2":
+      direction = "arc-left";
+      incX = -distPerIntervalInPx * scaleInc;
+      incY = distPerIntervalInPx * scaleInc;
+      break;
+    case "2-3":
+      direction = "arc-left";
+      incX = -distPerIntervalInPx * scaleInc;
+      incY = -distPerIntervalInPx * scaleInc;
+      break;
+    case "3-0":
+      direction = "arc-left";
+      incX = distPerIntervalInPx * scaleInc;
+      incY = -distPerIntervalInPx * scaleInc;
+      break;
   }
 
   console.log(`incX=${incX}, incY=${incY}`);
@@ -838,11 +847,67 @@ export function moveTrain(
       "style",
       `position:absolute;left:${left + trainTranslateX}px;top:${
         top + trainTranslateY
-      }px;`
+      }px;transform:rotate(${rotationInDeg}deg);`
     );
 
-    left = left + incX;
-    top = top + incY;
+    if (direction === "straight") {
+      left = left + incX;
+      top = top + incY;
+    } else {
+      degXY += degPerInterval;
+      // console.log("degXY=", degXY);
+      let { x, y } = calcOffsetsfromAngle(degXY, radius);
+      // console.log(`x=${x}, y=${y}`);
+      if (direction === "arc-right") {
+        switch (segment[0]) {
+          case "3":
+            left = x1 + y;
+            top = y1 + radius - x;
+            rotationInDeg = 90 + degXY;
+            break;
+          case "0":
+            left = x1 - radius + x;
+            top = y1 + y;
+            rotationInDeg = 180 + degXY;
+            break;
+          case "1":
+            left = x1 - y;
+            top = y1 - radius + x;
+            rotationInDeg = 270 + degXY;
+            break;
+          case "2":
+            left = x1 + radius - x;
+            top = y1 - y;
+            rotationInDeg = degXY;
+            break;
+        }
+      } else if (direction === "arc-left") {
+        switch (segment[0]) {
+          case "3":
+            left = x1 + y;
+            top = y1 - radius + x;
+            rotationInDeg = 90 - degXY;
+            break;
+          case "0":
+            left = x1 + radius - x;
+            top = y1 + y;
+            rotationInDeg = 180 - degXY;
+            break;
+          case "1":
+            left = x1 - y;
+            top = y1 + radius - x;
+            rotationInDeg = 270 - degXY;
+            break;
+          case "2":
+            left = x1 - radius + x;
+            top = y1 - y;
+            rotationInDeg = -degXY;
+            break;
+        }
+      }
+      // console.log(`left=${left}, top=${top}`);
+    }
+
     // console.log(`left=${left}, top=${top}`);
 
     if (
@@ -864,6 +929,34 @@ export function moveTrain(
 
 // ----------------------------------------------------
 
+/**
+ * Calculate the offsets of a point on a circle centered at (0,0)
+ * with radius 'radius' on x- and y-axis returning an object {x, y}.
+ * @param {number} alpha The angle in degrees.
+ * @param {number} radius The radius in px.
+ */
+function calcOffsetsfromAngle(alpha, radius) {
+  // console.log(`calcOffsetsfromAngle::alpha=${alpha}, radius=${radius}`);
+
+  function getTanFromDegrees(degrees) {
+    return Math.tan((degrees * Math.PI) / 180);
+  }
+
+  const tanAlpha = getTanFromDegrees(alpha);
+  const tanAlphaPower2 = tanAlpha * tanAlpha;
+  const radiusPower2 = radius * radius;
+  // console.log(
+  //   `tanAlpha=${tanAlpha}, tanAlphaPower2=${tanAlphaPower2}, radiusPower2=${radiusPower2}`
+  // );
+
+  const y = Math.sqrt(radiusPower2 / (1 / tanAlphaPower2 + 1));
+  const x = y / tanAlpha;
+  // console.log(`x=${x}, y=${y}`);
+  return { x, y };
+}
+
+// ----------------------------------------------------
+
 export function switchSegmentDirection(segment) {
   return segment[2] + segment[1] + segment[0];
 }
@@ -873,7 +966,7 @@ export function switchSegmentDirection(segment) {
 /**
  * Find all segments on a tile from a certain pos (0..3).
  * The returned segments will be directed in direction away
- * from pos.
+ * from pos (0..3 => n..w).
  */
 export function findSegmentsFromPos(tile, pos) {
   let arr = [];

@@ -13,28 +13,30 @@
     }
   </style>
   <polygon points="
-    10 14
-    12 12
-    16 10
-    20 10
-    24 12
-    26 14
-    24 14
-    24 36
-    26 36
-    26 44
-    10 44
-    10 36
-    12 36
-    12 14
-    10 14
+    42 38
+    44 36
+    48 34
+    52 34
+    56 36
+    58 38
+    56 38
+    56 60
+    58 60
+    58 68
+    42 68
+    42 60
+    44 60
+    44 38
+    42 38
   "></polygon>
-  <rect x="8" y="16" width="1" height="4"></rect>
-  <rect x="8" y="24" width="1" height="4"></rect>
-  <rect x="8" y="32" width="1" height="4"></rect>
-  <rect x="8" y="40" width="1" height="4"></rect>
-  <rect x="27" y="16" width="1" height="4"></rect>
-  <rect x="27" y="24" width="1" height="4"></rect>
-  <rect x="27" y="32" width="1" height="4"></rect>
-  <rect x="27" y="40" width="1" height="4"></rect>
+  <rect x="40" y="40" width="1" height="4"></rect>
+  <rect x="40" y="48" width="1" height="4"></rect>
+  <rect x="40" y="56" width="1" height="4"></rect>
+  <rect x="40" y="64" width="1" height="4"></rect>
+  <rect x="59" y="40" width="1" height="4"></rect>
+  <rect x="59" y="48" width="1" height="4"></rect>
+  <rect x="59" y="56" width="1" height="4"></rect>
+  <rect x="59" y="64" width="1" height="4"></rect>
+  <!-- <polygon points="40 40 50 30 60 40 60 56 40 56 40 40"></polygon>
+  <rect x="38" y="56" width="24" height="16"></rect> -->
 </svg>
