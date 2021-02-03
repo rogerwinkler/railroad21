@@ -86,6 +86,18 @@ export default {
           this.$root.$emit("restart");
           break;
         case 2:
+          this.$root.$emit("stop");
+          break;
+        case 3:
+          this.$root.$emit("layoutchanged", 1);
+          break;
+        case 4:
+          this.$root.$emit("layoutchanged", 2);
+          break;
+        case 5:
+          this.$root.$emit("layoutchanged", 3);
+          break;
+        case 6:
           this.$router.push("/settings");
           break;
       }
