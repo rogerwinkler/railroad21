@@ -26,8 +26,8 @@ export default {
       tileY: null, // current tile where train is at
       currentPos: 0, // current pos of train in current tile (0-3)
       stopped: false,
-      intervalInMs: 10,
-      distPerIntervalInPx: 2,
+      intervalInMs: 10, // can go down to 1
+      distPerIntervalInPx: 2, // max 3!!!
     };
   },
 
@@ -55,8 +55,9 @@ export default {
     createLayout(layout1, ".content");
     this.layout = layout1;
     this.train = createTrain(".content", 50, 200);
-    this.tileX = 0;
-    this.tileY = 1;
+    this.tileX = 0; // Pos of first tile to be entered.
+    this.tileY = 1; // Pos of first tile to be entered.
+    this.currentPos = 0; // Pos before first tile!
   },
 
   //-------------------------------------------------
@@ -70,7 +71,9 @@ export default {
       e.stopPropagation();
       console.log("handleEndReached::e", e);
       if (!this.stopped) {
-        this.move();
+        this.move("continue");
+      } else {
+        this.move("stop");
       }
     },
 
@@ -109,8 +112,13 @@ export default {
 
     //-------------------------------------------------
 
-    move() {
-      console.log("index.vue::move");
+    /**
+     * Moves the train. Param 'mode' is used for acceleration (start),
+     * slowing down (stop) and running (continue).
+     * @param {String} mode Moves the train in one of three modes: 'start', 'continue' or 'stop'.
+     */
+    move(mode) {
+      console.log("index.vue::move::mode=", mode);
       let tile;
       let segments;
       let idx;
@@ -123,10 +131,10 @@ export default {
       // Segments returned by findSegmentsFromPos are
       // directed starting from currentPos...
       segments = findSegmentsFromPos(tile, this.currentPos);
-      // console.log("segments=", segments);
+      console.log("segments=", segments);
       // Randomly select a segment if multiple segments...
       idx = getRandomInt(0, segments.length - 1);
-      // console.log("idx=", idx);
+      console.log("idx=", idx);
       coordsFrom = posOnTileToCoords(this.tileX, this.tileY, this.currentPos);
       console.log("coordsFrom=", coordsFrom);
       coordsTo = posOnTileToCoords(
@@ -144,7 +152,8 @@ export default {
         coordsTo.x,
         coordsTo.y,
         this.intervalInMs,
-        this.distPerIntervalInPx
+        this.distPerIntervalInPx,
+        mode
       );
 
       this.currentPos = parseInt(segments[idx][2]);
@@ -157,39 +166,50 @@ export default {
 
     restart() {
       console.log("restart");
-      this.stopped = false;
+      // Stop before restarting...
+      this.stopped = true;
 
-      // remove current train...
-      const content = document.querySelector(".content");
-      content.removeChild(this.train);
+      // Give train some time before restarting...
+      setTimeout(() => {
+        this.stopped = false;
 
-      switch (this.layout) {
-        case layout1:
-          this.train = createTrain(".content", 50, 200);
-          this.tileX = 0;
-          this.tileY = 1;
-          break;
-        case layout2:
-          this.train = createTrain(".content", 50, 200);
-          this.tileX = 0;
-          this.tileY = 1;
-          break;
-        case layout3:
-          this.train = createTrain(".content", 150, 300);
-          this.tileX = 1;
-          this.tileY = 2;
-          break;
-        default:
-          break;
-      }
+        // remove current train...
+        const content = document.querySelector(".content");
+        content.removeChild(this.train);
 
-      this.move();
+        switch (this.layout) {
+          case layout1:
+            this.train = createTrain(".content", 50, 200);
+            this.tileX = 0; // First tile to be entered.
+            this.tileY = 1; // First tile to be entered.
+            this.currentPos = 0; // Pos just before first tile to be entered!
+            break;
+          case layout2:
+            this.train = createTrain(".content", 50, 200);
+            this.tileX = 0; // First tile to be entered.
+            this.tileY = 1; // First tile to be entered.
+            this.currentPos = 0; // Pos just before first tile to be entered!
+            break;
+          case layout3:
+            this.train = createTrain(".content", 150, 300);
+            this.tileX = 1; // First tile to be entered.
+            this.tileY = 2; // First tile to be entered.
+            this.currentPos = 0; // Pos just before first tile to be entered!
+            break;
+          default:
+            break;
+        }
+
+        this.move("start");
+      }, 500);
     },
 
     //-------------------------------------------------
 
     changeLayout(layoutNo) {
       console.log("changeLayout::layoutNo=", layoutNo);
+      // Stop train...
+      this.stopped = true;
 
       // remove current layout...
       const content = document.querySelector(".content");
@@ -203,22 +223,25 @@ export default {
           createLayout(layout1, ".content");
           this.layout = layout1;
           this.train = createTrain(".content", 50, 200);
-          this.tileX = 0;
-          this.tileY = 1;
+          this.tileX = 0; // First tile to be entered.
+          this.tileY = 1; // First tile to be entered.
+          this.currentPos = 0; // Pos just before first tile to be entered!
           break;
         case 2:
           createLayout(layout2, ".content");
           this.layout = layout2;
           this.train = createTrain(".content", 50, 200);
-          this.tileX = 0;
-          this.tileY = 1;
+          this.tileX = 0; // First tile to be entered.
+          this.tileY = 1; // First tile to be entered.
+          this.currentPos = 0; // Pos just before first tile to be entered!
           break;
         case 3:
           createLayout(layout3, ".content");
           this.layout = layout3;
           this.train = createTrain(".content", 150, 300);
-          this.tileX = 1;
-          this.tileY = 2;
+          this.tileX = 1; // First tile to be entered.
+          this.tileY = 2; // First tile to be entered.
+          this.currentPos = 0; // Pos just before first tile to be entered!
           break;
       }
     },

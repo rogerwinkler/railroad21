@@ -728,12 +728,13 @@ var endReachedEvent = new Event("endreached");
  *
  * @param {htmlElem} train The HTML element to be moved on the tracks.
  * @param {String} segment Segment vector from start to end point (directed!!!).
- * @param {number} x1 X-coordinate of starting point (x1, y1)
- * @param {number} y1 Y-coordinate of starting point (x1, y1)
- * @param {number} x2 X-coordinate of end point (x2, y2)
- * @param {number} y2 Y-coordinate of end point (x2, y2)
- * @param {numer} intervalInMs Time in ms the train travels the 'distPerInterval'
- * @param {number} distPerIntervalInPx Distance the train travels during one 'intervalInMs'
+ * @param {Number} x1 X-coordinate of starting point (x1, y1)
+ * @param {Number} y1 Y-coordinate of starting point (x1, y1)
+ * @param {Number} x2 X-coordinate of end point (x2, y2)
+ * @param {Number} y2 Y-coordinate of end point (x2, y2)
+ * @param {Number} intervalInMs Time in ms the train travels the 'distPerInterval'
+ * @param {Number} distPerIntervalInPx Distance the train travels during one 'intervalInMs'
+ * @param {String} mode Indication one of three modes: 'start' to accelerate, 'continue' to run at full speed and 'stop' to slow down.
  */
 export function moveTrain(
   train,
@@ -743,7 +744,8 @@ export function moveTrain(
   x2,
   y2,
   intervalInMs,
-  distPerIntervalInPx
+  distPerIntervalInPx,
+  mode
 ) {
   console.log("layout.js::moveTrain::segment=", segment);
 
@@ -762,6 +764,10 @@ export function moveTrain(
   let degXY = 0; // The angle indicating the position of the train when on a circle segment.
   let rotationInDeg = 0; // The rotation of the train at pos degXY.
   const scaleInc = 1; // Scale factor to be applied, must correspond with the scaling factor of the layouts.
+  let interval; // Interval depending on mode (start, continue, stop) conditions.
+  const stopInterval = 180; // When this interval in ms is reached, the train stops.
+  let incInterval = 0; // The interval is incremented by this amount in ms until stopInterval is reached and the train stops. incInterval is incremented linearly.
+  let decInterval = 20; // The interval is decremented by this amount in ms until the train reaches full speed. decInterval is decremented linearly.
 
   console.log(`x1=${x1}, y1=${y1}, x2=${x2}, y2=${y2}`);
 
@@ -839,6 +845,18 @@ export function moveTrain(
   if (segment === "" || direction === "") {
     console.error("Calculation error in moveTrain()");
     return;
+  }
+
+  switch (mode) {
+    case "continue":
+      interval = intervalInMs;
+      break;
+    case "start":
+      interval = stopInterval;
+      break;
+    case "stop":
+      interval = intervalInMs;
+      break;
   }
 
   function move() {
@@ -919,9 +937,29 @@ export function moveTrain(
       console.log("moveTrain::end reached");
       document.dispatchEvent(endReachedEvent);
     } else {
-      new Promise(function (resolve) {
-        setTimeout(() => resolve(1), intervalInMs);
-      }).then(move);
+      switch (mode) {
+        case "continue":
+          interval = intervalInMs;
+          break;
+        case "start":
+          interval -= decInterval;
+          if (interval < intervalInMs) {
+            interval = intervalInMs;
+          }
+          decInterval -= 1.4;
+          if (decInterval < 1) decInterval = 1;
+          break;
+        case "stop":
+          interval += incInterval;
+          incInterval += 1;
+          break;
+      }
+
+      if (!(mode === "stop" && interval >= stopInterval)) {
+        new Promise(function (resolve) {
+          setTimeout(() => resolve(1), interval);
+        }).then(move);
+      }
     }
   }
   move();
