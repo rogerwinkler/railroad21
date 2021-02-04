@@ -26,7 +26,7 @@ export default {
       tileY: null, // current tile where train is at
       currentPos: 0, // current pos of train in current tile (0-3)
       stopped: false,
-      intervalInMs: 8,
+      intervalInMs: 10,
       distPerIntervalInPx: 2,
     };
   },
