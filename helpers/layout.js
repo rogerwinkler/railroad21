@@ -96,7 +96,7 @@ export class Tile {
 //
 const tileCross = new Tile(
   "cross",
-  [("0-2", "1-3")],
+  ["0-2", "1-3"],
   [],
   [],
   0,
@@ -188,7 +188,7 @@ const tileCurve = new Tile(
 //               2
 //
 const tileCurveR1 = new Tile(
-  "curve",
+  "curve-r1",
   ["2-3"],
   [],
   [],
@@ -211,7 +211,7 @@ const tileCurveR1 = new Tile(
 //               2
 //
 const tileCurveR2 = new Tile(
-  "curve",
+  "curve-r2",
   ["3-0"],
   [],
   [],
@@ -234,7 +234,7 @@ const tileCurveR2 = new Tile(
 //               2
 //
 const tileCurveR3 = new Tile(
-  "curve",
+  "curve-r3",
   ["0-1"],
   [],
   [],
@@ -243,6 +243,309 @@ const tileCurveR3 = new Tile(
   false,
   "img/tiles/curve.svg"
 );
+
+//---------------------------------------------
+//
+//               0
+//        +-------------+
+//        |             |
+//        |             |
+//      3 o----     ----o 1
+//        |     \ /     |
+//        |      |      |
+//        +------o------+
+//               2
+//
+const tileTwoCurvesAdj = new Tile(
+  "two-curves-adj",
+  ["1-2", "2-3"],
+  [],
+  [],
+  0,
+  false,
+  false,
+  "img/tiles/two-curves-adj.svg"
+);
+
+//---------------------------------------------
+//
+//               0
+//        +------o------+
+//        |      |      |
+//        |     /       |
+//      3 o----         | 1
+//        |     \       |
+//        |      |      |
+//        +------o------+
+//               2
+//
+const tileTwoCurvesAdjR1 = new Tile(
+  "two-curves-adj-r1",
+  ["3-0", "2-3"],
+  [],
+  [],
+  90,
+  false,
+  false,
+  "img/tiles/two-curves-adj.svg"
+);
+
+//---------------------------------------------
+//
+//               0
+//        +------o------+
+//        |      |      |
+//        |     / \     |
+//      3 o----     ----o 1
+//        |             |
+//        |             |
+//        +-------------+
+//               2
+//
+const tileTwoCurvesAdjR2 = new Tile(
+  "two-curves-adj-r2",
+  ["3-0", "0-1"],
+  [],
+  [],
+  180,
+  false,
+  false,
+  "img/tiles/two-curves-adj.svg"
+);
+
+//---------------------------------------------
+//
+//               0
+//        +------o------+
+//        |      |      |
+//        |       \     |
+//      3 |         ----o 1
+//        |       /     |
+//        |      |      |
+//        +------o------+
+//               2
+//
+const tileTwoCurvesAdjR3 = new Tile(
+  "two-curves-adj-r3",
+  ["0-1", "1-2"],
+  [],
+  [],
+  270,
+  false,
+  false,
+  "img/tiles/two-curves-adj.svg"
+);
+
+//---------------------------------------------
+//
+//               0
+//        +------o------+
+//        |      |      |
+//        |     /       |
+//      3 o----     ----o 1
+//        |       /     |
+//        |      |      |
+//        +------o------+
+//               2
+//
+const tileTwoCurvesOpp = new Tile(
+  "two-curves-opp",
+  ["1-2", "3-0"],
+  [],
+  [],
+  0,
+  false,
+  false,
+  "img/tiles/two-curves-opp.svg"
+);
+
+//---------------------------------------------
+//
+//               0
+//        +------o------+
+//        |      |      |
+//        |       \     |
+//      3 o----     ----o 1
+//        |     \       |
+//        |      |      |
+//        +------o------+
+//               2
+//
+const tileTwoCurvesOppR1 = new Tile(
+  "two-curves-opp-r1",
+  ["0-1", "2-3"],
+  [],
+  [],
+  90,
+  false,
+  false,
+  "img/tiles/two-curves-opp.svg"
+);
+
+//---------------------------------------------
+//
+//               0
+//        +------o------+
+//        |      |      |
+//        |     /       |
+//      3 o----     ----o 1
+//        |     \ /     |
+//        |      |      |
+//        +------o------+
+//               2
+//
+const tileThreeCurves = new Tile(
+  "three-curves",
+  ["1-2", "2-3", "3-0"],
+  [],
+  [],
+  0,
+  false,
+  false,
+  "img/tiles/three-curves.svg"
+);
+
+//---------------------------------------------
+//
+//               0
+//        +------o------+
+//        |      |      |
+//        |     / \     |
+//      3 o----     ----o 1
+//        |     \       |
+//        |      |      |
+//        +------o------+
+//               2
+//
+const tileThreeCurvesR1 = new Tile(
+  "three-curves-r1",
+  ["0-1", "2-3", "3-0"],
+  [],
+  [],
+  90,
+  false,
+  false,
+  "img/tiles/three-curves.svg"
+);
+
+//---------------------------------------------
+//
+//               0
+//        +------o------+
+//        |      |      |
+//        |     / \     |
+//      3 o----     ----o 1
+//        |       /     |
+//        |      |      |
+//        +------o------+
+//               2
+//
+const tileThreeCurvesR2 = new Tile(
+  "three-curves-r2",
+  ["1-2", "0-1", "3-0"],
+  [],
+  [],
+  180,
+  false,
+  false,
+  "img/tiles/three-curves.svg"
+);
+
+//---------------------------------------------
+//
+//               0
+//        +------o------+
+//        |      |      |
+//        |       \     |
+//      3 o----     ----o 1
+//        |     \ /     |
+//        |      |      |
+//        +------o------+
+//               2
+//
+const tileThreeCurvesR3 = new Tile(
+  "three-curves-r3",
+  ["1-2", "2-3", "0-1"],
+  [],
+  [],
+  270,
+  false,
+  false,
+  "img/tiles/three-curves.svg"
+);
+
+//---------------------------------------------
+//
+//               0
+//        +------o------+
+//        |      |      |
+//        |     / \     |
+//      3 o----     ----o 1
+//        |     \ /     |
+//        |      |      |
+//        +------o------+
+//               2
+//
+const tileFourCurves = new Tile(
+  "four-curves",
+  ["0-1", "1-2", "2-3", "3-0"],
+  [],
+  [],
+  0,
+  false,
+  false,
+  "img/tiles/four-curves.svg"
+);
+
+//---------------------------------------------
+//
+//               0
+//        +------o------+
+//        |      |      |
+//        |     / \     |
+//      3 o-------------o 1
+//        |     \ /     |
+//        |      |      |
+//        +------o------+
+//               2
+//
+const tileFourCurvesNStraightAcross = new Tile(
+  "four-curves-n-straight-across",
+  ["0-1", "1-2", "2-3", "3-0", "3-1"],
+  [],
+  [],
+  0,
+  false,
+  false,
+  "img/tiles/four-curves-n-straight-across.svg"
+);
+
+//---------------------------------------------
+//
+//               0
+//        +------o------+
+//        |      |      |
+//        |     /|\     |
+//      3 o----  |  ----o 1
+//        |     \|/     |
+//        |      |      |
+//        +------o------+
+//               2
+//
+const tileFourCurvesNStraightAcrossR1 = new Tile(
+  "four-curves-n-straight-across",
+  ["0-1", "1-2", "2-3", "3-0", "0-2"],
+  [],
+  [],
+  90,
+  false,
+  false,
+  "img/tiles/four-curves-n-straight-across.svg"
+);
+
+//===========================================
+
+//===========================================
 
 //---------------------------------------------
 //
@@ -435,7 +738,7 @@ const tileCurveNStraightR3Fh = new Tile(
 //        |             |
 //        |             |
 //      3 o-------------o 1
-//        |     \|/     |
+//        |     \ /     |
 //        |      |      |
 //        +------o------+
 //               2
@@ -652,6 +955,132 @@ export const layout3 = [
   ],
   [tileStraightR1, tileCurveR3, tileCurveR2, tileStraightR1],
   [tileCurveR3, tileStraight, tileStraight, tileCurveR2],
+];
+
+export const layout4 = [
+  [
+    tileCurve,
+    tileTwoCurvesAdjNStraightAcross,
+    tileTwoCurvesAdjNStraightAcross,
+    tileCurveR1,
+  ],
+  [
+    tileTwoCurvesAdjNStraightAcrossR3,
+    tileFourCurvesNStraightAcrossR1,
+    tileFourCurvesNStraightAcrossR1,
+    tileTwoCurvesAdjNStraightAcrossR1,
+  ],
+  [
+    tileTwoCurvesAdjNStraightAcrossR3,
+    tileTwoCurvesAdjNStraightAcrossR1,
+    tileTwoCurvesAdjNStraightAcrossR3,
+    tileTwoCurvesAdjNStraightAcrossR1,
+  ],
+  [
+    tileStraightR1,
+    tileTwoCurvesAdjNStraightAcrossR3,
+    tileTwoCurvesAdjNStraightAcrossR1,
+    tileStraightR1,
+  ],
+  [
+    tileTwoCurvesAdjNStraightAcrossR3,
+    tileTwoCurvesAdjNStraightAcrossR1,
+    tileTwoCurvesAdjNStraightAcrossR3,
+    tileTwoCurvesAdjNStraightAcrossR1,
+  ],
+  [tileStraightR1, tileTwoCurvesAdjR3, tileTwoCurvesAdjR1, tileStraightR1],
+  [tileCurveR3, tileCurveNStraightR3Fv, tileCurveNStraightR3, tileCurveR2],
+];
+
+export const layout5 = [
+  [
+    tileCurve,
+    tileStraight,
+    tileStraight,
+    tileStraight,
+    tileTwoCurvesAdjNStraightAcross,
+    tileStraight,
+    tileStraight,
+    tileStraight,
+    tileCurveR1,
+  ],
+  [
+    tileStraightR1,
+    tileCurve,
+    tileStraight,
+    tileStraight,
+    tileCross,
+    tileStraight,
+    tileStraight,
+    tileStraight,
+    tileCurveR2,
+  ],
+  [
+    tileStraightR1,
+    tileCurveNStraightR2Fv,
+    tileStraight,
+    tileStraight,
+    tileCross,
+    tileStraight,
+    tileStraight,
+    tileStraight,
+    tileCurveR1,
+  ],
+  [
+    tileTwoCurvesAdjNStraightAcrossR3,
+    tileCross,
+    tileStraight,
+    tileStraight,
+    tileCross,
+    tileStraight,
+    tileTwoCurvesAdjNStraightAcross,
+    tileStraight,
+    tileCurveR2,
+  ],
+  [
+    tileStraightR1,
+    tileCurveNStraight,
+    tileStraight,
+    tileCurveR1,
+    tileStraightR1,
+    tileCurve,
+    tileCross,
+    tileStraight,
+    tileCurveR1,
+  ],
+  [
+    tileStraightR1,
+    tileStraightR1,
+    tileCurve,
+    tileCurveR2,
+    tileStraightR1,
+    tileStraightR1,
+    tileStraightR1,
+    tileCurve,
+    tileCurveNStraightR2,
+  ],
+  [
+    tileStraightR1,
+    tileStraightR1,
+    tileCurveR3,
+    tileStraight,
+    tileCurveR2,
+    tileStraightR1,
+    tileStraightR1,
+    tileStraightR1,
+    tileStraightR1,
+  ],
+  [
+    tileCurveR3,
+    tileCurveR2,
+    null,
+    null,
+    null,
+    tileCurveR3,
+    tileCurveR2,
+    tileCurveR3,
+    tileCurveR2,
+  ],
 ];
 
 /**
@@ -934,6 +1363,9 @@ export function moveTrain(
       (incY < 0 && top <= y2) ||
       (incY > 0 && top >= y2)
     ) {
+      console.log(
+        `incX=${incX}, incY=${incY}, left=${left}, top=${top}, x2=${x2}, y2=${y2}`
+      );
       console.log("moveTrain::end reached");
       document.dispatchEvent(endReachedEvent);
     } else {

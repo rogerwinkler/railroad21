@@ -13,6 +13,8 @@ export const state = () => ({
     { title: "Layout 1", disabled: true },
     { title: "Layout 2", disabled: true },
     { title: "Layout 3", disabled: true },
+    { title: "Layout 4", disabled: true },
+    { title: "Layout 5", disabled: true },
     { title: "Settings", disabled: true },
   ],
 });

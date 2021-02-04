@@ -98,6 +98,12 @@ export default {
           this.$root.$emit("layoutchanged", 3);
           break;
         case 6:
+          this.$root.$emit("layoutchanged", 4);
+          break;
+        case 7:
+          this.$root.$emit("layoutchanged", 5);
+          break;
+        case 8:
           this.$router.push("/settings");
           break;
       }

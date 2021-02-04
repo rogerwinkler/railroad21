@@ -8,6 +8,8 @@ import {
   layout1,
   layout2,
   layout3,
+  layout4,
+  layout5,
   createLayout,
   createTrain,
   moveTrain,
@@ -20,14 +22,13 @@ export default {
   data() {
     return {
       layout: null,
-      layoutNo: null,
       train: null,
       tileX: null, // current tile where train is at
       tileY: null, // current tile where train is at
       currentPos: 0, // current pos of train in current tile (0-3)
       stopped: false,
-      intervalInMs: 10, // can go down to 1
-      distPerIntervalInPx: 2, // max 3!!!
+      intervalInMs: 6, // can go down to 1, default 10
+      distPerIntervalInPx: 2, // max 3!!!, default 2
     };
   },
 
@@ -196,7 +197,17 @@ export default {
             this.tileY = 2; // First tile to be entered.
             this.currentPos = 0; // Pos just before first tile to be entered!
             break;
-          default:
+          case layout4:
+            this.train = createTrain(".content", 50, 400);
+            this.tileX = 0; // First tile to be entered.
+            this.tileY = 3; // First tile to be entered.
+            this.currentPos = 0; // Pos just before first tile to be entered!
+            break;
+          case layout5:
+            this.train = createTrain(".content", 50, 300);
+            this.tileX = 0; // First tile to be entered.
+            this.tileY = 2; // First tile to be entered.
+            this.currentPos = 0; // Pos just before first tile to be entered!
             break;
         }
 
@@ -240,6 +251,22 @@ export default {
           this.layout = layout3;
           this.train = createTrain(".content", 150, 300);
           this.tileX = 1; // First tile to be entered.
+          this.tileY = 2; // First tile to be entered.
+          this.currentPos = 0; // Pos just before first tile to be entered!
+          break;
+        case 4:
+          createLayout(layout4, ".content");
+          this.layout = layout4;
+          this.train = createTrain(".content", 50, 400);
+          this.tileX = 0; // First tile to be entered.
+          this.tileY = 3; // First tile to be entered.
+          this.currentPos = 0; // Pos just before first tile to be entered!
+          break;
+        case 5:
+          createLayout(layout5, ".content");
+          this.layout = layout5;
+          this.train = createTrain(".content", 50, 300);
+          this.tileX = 0; // First tile to be entered.
           this.tileY = 2; // First tile to be entered.
           this.currentPos = 0; // Pos just before first tile to be entered!
           break;
