@@ -285,5 +285,6 @@ export default {
   height: calc(100vh - 130px);
   width: 80%;
   margin-left: 10%;
+  /* position: relative; */
 }
 </style>

@@ -106,6 +106,15 @@ export default {
         case 8:
           this.$router.push("/settings");
           break;
+        case 9:
+          this.$root.$emit("settingsstart");
+          break;
+        case 10:
+          this.$root.$emit("settingsstop");
+          break;
+        case 11:
+          this.$root.$emit("settingscontinue");
+          break;
       }
       this.shown = false;
     },

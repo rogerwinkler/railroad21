@@ -10,3 +10,26 @@ $r21-col-error: #919f17;
 $r21-col-info: #fcf0c8;
 $r21-col-success: #350509;
 $r21-col-warning: #f9e398;
+
+// global stylings
+.container {
+  padding: 0;
+  margin: 0;
+}
+
+// Make sure the div doesn't grow over the svg.
+.tile {
+  position: absolute;
+  width: 100px;
+  max-width: 100px;
+  height: 100px;
+  max-height: 100px;
+}
+
+.train {
+  position: absolute;
+  width: 100px;
+  max-width: 100px;
+  height: 100px;
+  max-height: 100px;
+}
