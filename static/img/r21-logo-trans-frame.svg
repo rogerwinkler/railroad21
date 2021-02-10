@@ -8,12 +8,12 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="271.45255mm"
-   height="133.39323mm"
-   viewBox="0 0 271.45255 133.39323"
+   height="115.29092mm"
+   viewBox="0 0 271.45255 115.29091"
    version="1.1"
    id="svg8"
    inkscape:version="1.0.1 (0767f8302a, 2020-10-17)"
-   sodipodi:docname="r21-logo-big.svg">
+   sodipodi:docname="r21-logo-transparent.svg">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -24,7 +24,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.5"
-     inkscape:cx="594.50279"
+     inkscape:cx="491.82489"
      inkscape:cy="311.17543"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -42,11 +42,11 @@
      fit-margin-right="0"
      fit-margin-bottom="0">
     <sodipodi:guide
-       position="253.20214,97.028116"
+       position="253.20213,78.925796"
        orientation="1,0"
        id="guide1070" />
     <sodipodi:guide
-       position="17.580666,66.055942"
+       position="17.580664,47.953623"
        orientation="1,0"
        id="guide1072" />
   </sodipodi:namedview>
@@ -66,14 +66,14 @@
      inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-16.689316,-63.200001)">
+     transform="translate(-16.689317,-63.200002)">
     <rect
-       style="fill:#630a10;fill-opacity:1;stroke:#fcf0c8;stroke-width:0.273238;stroke-opacity:1"
+       style="fill:none;fill-opacity:1;stroke:#fcf0c8;stroke-width:0.254011;stroke-opacity:1"
        id="rect1064"
-       width="271.17932"
-       height="133.12"
-       x="16.825935"
-       y="63.33662" />
+       width="271.19855"
+       height="115.0369"
+       x="16.816322"
+       y="63.327007" />
     <path
        id="rect833-4-3"
        style="fill:#fcf0c8;fill-opacity:1;stroke:#fcf0c8;stroke-width:0.855389;stroke-opacity:1"
@@ -93,17 +93,5 @@
        y="283.06781"
        ry="0"
        transform="matrix(0.31306768,-0.94973082,1,0,0,0)" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:25.2993px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:3.38153px;fill:#fcf0c8;fill-opacity:1;stroke-width:0.350226"
-       x="23.360958"
-       y="241.83144"
-       id="text1068"
-       transform="scale(1.3236862,0.75546604)"><tspan
-         sodipodi:role="line"
-         id="tspan1066"
-         x="23.360958"
-         y="241.83144"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.2993px;font-family:'GFS Baskerville';-inkscape-font-specification:'GFS Baskerville';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#fcf0c8;fill-opacity:1;stroke-width:0.350226">RAILROAD21</tspan></text>
   </g>
 </svg>
