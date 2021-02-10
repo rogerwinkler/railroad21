@@ -38,15 +38,13 @@
  *
  */
 export class Tile {
-  name = "";
-  segments = "------"; // 0..5
+  segments = "------"; // 0..5, each character in the string representing one of the six segments of a tile.
   insulations = "----"; // 0..3, access points can be insulated to prevent power to move through.
   poweredSegments = "------"; // 0..5 indicates segments with access to power.
   accessPoints = "----"; // 0..3 access points are derived from the segments.
   switchState = "----"; // 0..3 current state of switches.
 
-  constructor(name, segments, insulations, poweredSegments, switchState) {
-    this.name = name;
+  constructor(segments, insulations, poweredSegments, switchState) {
     this.segments = segments;
     this.insulations = insulations;
     this.poweredSegments = poweredSegments;

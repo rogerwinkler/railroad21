@@ -67,7 +67,7 @@ export default {
     this.$store.commit("enableAllMenuItems");
     this.$store.commit("disableMenuItem", 2);
 
-    this.$store.commit("setCurrentLayout", 2);
+    this.$store.commit("setCurrentLayout", 4);
     // console.log("this.layout=", this.layout);
 
     this.$root.$on("settingsstart", this.start);
