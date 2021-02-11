@@ -71,6 +71,7 @@
       this.$store.commit('setCurrentPage', 'Home');
       this.$store.commit('enableAllMenuItems');
       this.$store.commit('disableMenuItem', 0);
+      this.$store.commit('disableMenuItem', 3);
 
       this.calcStaticParams();
 
@@ -85,7 +86,7 @@
         this.$store.commit('setCurrentSpeed', 'normal');
       }
       const idx = this.findSpeedIndex(this.$store.state.currentSpeed);
-      console.log('idx=', idx);
+      // console.log('idx=', idx);
       this.intervalInMs = this.$store.state.speeds[idx].intervalInMs;
       this.distPerIntervalInPx = this.$store.state.speeds[
         idx
@@ -257,7 +258,7 @@
       // ----------------------------------------------------
 
       reset() {
-        console.log('reset');
+        // console.log('reset');
         this.initTrain();
       },
 

@@ -84,27 +84,27 @@
           :disabled="page === 'Settings'"
           class="secondary--text"
           size="30px"
-          @click.stop="$root.$emit('reset')"
+          @click.stop="handleReset"
           >mdi-skip-backward</v-icon
         >
       </div>
-      <div class="nav-icon">
+      <div v-if="stopped" class="play-icon nav-icon">
         <hr class="hr hidden" />
         <v-icon
-          :disabled="page === 'Settings'"
+          :disabled="this.page === 'Settings'"
           class="secondary--text"
           size="30px"
-          @click.stop="$root.$emit('startcontinue')"
+          @click.stop="handlePlay"
           >mdi-play</v-icon
         >
       </div>
-      <div class="nav-icon">
+      <div v-else class="pause-icon nav-icon">
         <hr class="hr hidden" />
         <v-icon
           :disabled="page === 'Settings'"
           class="secondary--text"
           size="30px"
-          @click.stop="$root.$emit('stoppause')"
+          @click.stop="handleStop"
           >mdi-pause</v-icon
         >
       </div>
@@ -114,7 +114,7 @@
           :disabled="page === 'Settings'"
           class="secondary--text"
           size="30px"
-          @click.stop="$router.push('/settings')"
+          @click.stop="handleSettings"
           >mdi-ballot-outline</v-icon
         >
       </div>
@@ -127,6 +127,7 @@
     data() {
       return {
         shown: false,
+        stopped: true,
       };
     },
 
@@ -135,12 +136,51 @@
         return this.$store.state.menuItems;
       },
 
+      playDisabled() {
+        return this.page === 'Settings' || !this.stopped;
+      },
+
       page() {
         return this.$store.state.currentPage;
       },
     },
 
+    mounted() {
+      // console.log('layouts::default.vue::mounted');
+      this.handleReset();
+    },
+
     methods: {
+      handleStop() {
+        // console.log('handleStop');
+        this.stopped = true;
+        this.$store.commit('enableMenuItem', 2);
+        this.$store.commit('disableMenuItem', 3);
+        this.$root.$emit('stoppause');
+      },
+
+      handleReset() {
+        // console.log('handleReset');
+        this.stopped = true;
+        this.$store.commit('enableMenuItem', 2);
+        this.$store.commit('disableMenuItem', 3);
+        this.$root.$emit('reset');
+      },
+
+      handlePlay() {
+        // console.log('handlePlay');
+        this.stopped = false;
+        this.$store.commit('enableMenuItem', 3);
+        this.$store.commit('disableMenuItem', 2);
+        this.$root.$emit('startcontinue');
+      },
+
+      handleSettings() {
+        // console.log('handleSettings');
+        this.handleStop();
+        this.$router.push('/settings');
+      },
+
       menuItemClicked(itemNo) {
         // console.log("menuItemClicked::itemNo=", itemNo);
         switch (itemNo) {
@@ -149,16 +189,16 @@
             this.$router.push('/');
             break;
           case 1:
-            this.$root.$emit('reset');
+            this.handleReset();
             break;
           case 2:
-            this.$root.$emit('startcontinue');
+            this.handlePlay();
             break;
           case 3:
-            this.$root.$emit('stoppause');
+            this.handleStop();
             break;
           case 4:
-            this.$router.push('/settings');
+            this.handleSettings();
             break;
         }
         this.shown = false;

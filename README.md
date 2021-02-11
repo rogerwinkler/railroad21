@@ -4,10 +4,10 @@ _Railroad21_ is a railroad game. As a PWA it can be attached to mobile's homescr
 
 ## Status
 
-| Status Type     | Description                                   |
-| :-------------- | :-------------------------------------------- |
-| Current Version | 0.8.0                                         |
-| Status          | Experimental, build up, game not yet playable |
+| Status Type     | Description                                 |
+| :-------------- | :------------------------------------------ |
+| Current Version | 1.0.0                                       |
+| Status          | First stable version. Simple game playable. |
 
 #### Quick Links
 
@@ -47,19 +47,20 @@ _**Note**: This roadmap is subject to change. Functionalities may be added, remo
 ### Release 1.0
 
 - Game basics.
-- Simple images and graphics to represent locomotives, wagons, tracks and symbols. Quick and dirty approach.
-- The game will provide simple, standard layouts (only few).
-- One (none) or only a few game levels.
-- Control through traffic lights (stop & go) and track switches.
-- Limited to two trains with two different speeds and two different lengths.
+- Simple images and graphics to represent locomotive, tracks and switches.
+- Just one single train (locomotive).
+- The game will provide simple, standard layouts (only a few).
+- No scoring, no game levels.
+- Control through track switches.
 
 ### Release 1.1
 
-- Add more game levels, more layouts, more complex layouts.
-- Allow more trains.
+- Add game levels, more layouts, more complex layouts.
+- Two or more trains with two different speeds and two different lengths.
 
 ### Release 1.2
 
+- Attach wagons to locomotive (train composition).
 - Introduce control through power switches. Definition of track segments. Power in segments may be controlled by power switches.
 - Color of trackes changes according to power is on or off.
 

@@ -66,6 +66,118 @@ export const state = () => ({
     [
       [
         new Tile('--x---', null, null, '----'),
+        new Tile('-xx--x', null, null, '-srs'),
+        new Tile('-----x', null, null, '----'),
+      ],
+      [
+        new Tile('x-----', null, null, '----'),
+        new Tile('x-xx--', null, null, 'srs-'),
+        new Tile('x---x-', null, null, 'r---'),
+      ],
+      [
+        new Tile('--xx--', null, null, '-r--'),
+        new Tile('-x--x-', null, null, '---s'),
+        new Tile('x---xx', null, null, 's-sr'),
+      ],
+      [
+        new Tile('--xx--', null, null, '-r--'),
+        new Tile('-----x', null, null, '----'),
+        new Tile('x-----', null, null, '----'),
+      ],
+      [
+        new Tile('---x--', null, null, '----'),
+        new Tile('---xx-', null, null, 'r---'),
+        new Tile('----x-', null, null, '----'),
+      ],
+    ],
+    // layouts[2]
+    [
+      [
+        new Tile('--x---', null, null, '----'),
+        new Tile('-xx--x', null, null, '-srs'),
+        new Tile('-----x', null, null, '----'),
+      ],
+      [
+        new Tile('x-----', null, null, '----'),
+        new Tile('x-xx--', null, null, 'srs-'),
+        new Tile('x---x-', null, null, 'r---'),
+      ],
+      [
+        new Tile('--xx--', null, null, '-r--'),
+        new Tile('-xx-x-', null, null, '-l-s'),
+        new Tile('x---xx', null, null, 's-sr'),
+      ],
+      [
+        new Tile('--xx--', null, null, '-r--'),
+        new Tile('x---xx', null, null, 's-ll'),
+        new Tile('x-----', null, null, '----'),
+      ],
+      [
+        new Tile('---x--', null, null, '----'),
+        new Tile('---xx-', null, null, 'r---'),
+        new Tile('----x-', null, null, '----'),
+      ],
+    ],
+    // layouts[3]
+    [
+      [
+        new Tile('--x---', null, null, '----'),
+        new Tile('--x--x', null, null, '--l-'),
+        new Tile('-----x', null, null, '----'),
+      ],
+      [
+        new Tile('--xx--', null, null, '-l--'),
+        new Tile('--xxxx', null, null, 'llll'),
+        new Tile('----xx', null, null, '---l'),
+      ],
+      [
+        new Tile('--xx--', null, null, '-l--'),
+        new Tile('--xxxx', null, null, 'llll'),
+        new Tile('----xx', null, null, '---l'),
+      ],
+      [
+        new Tile('--xx--', null, null, '-l--'),
+        new Tile('--xxxx', null, null, 'llll'),
+        new Tile('----xx', null, null, '---l'),
+      ],
+      [
+        new Tile('---x--', null, null, '----'),
+        new Tile('---xx-', null, null, 'l---'),
+        new Tile('----x-', null, null, '----'),
+      ],
+    ],
+    // layouts[4]
+    [
+      [
+        new Tile('--x---', null, null, '----'),
+        new Tile('-xx--x', null, null, '-sls'),
+        new Tile('-----x', null, null, '----'),
+      ],
+      [
+        new Tile('x-xx--', null, null, 'sls-'),
+        new Tile('-xxxxx', null, null, 'llll'),
+        new Tile('x---xx', null, null, 's-sl'),
+      ],
+      [
+        new Tile('x-xx--', null, null, 'sls-'),
+        new Tile('-xxxxx', null, null, 'llll'),
+        new Tile('x---xx', null, null, 's-sl'),
+      ],
+      [
+        new Tile('x-xx--', null, null, 'sls-'),
+        new Tile('-xxxxx', null, null, 'llll'),
+        new Tile('x---xx', null, null, 's-sl'),
+      ],
+      [
+        new Tile('---x--', null, null, '----'),
+        new Tile('-x-xx-', null, null, 'ls-s'),
+        new Tile('----x-', null, null, '----'),
+      ],
+    ],
+    // layouts[5]
+    [
+      [
+        new Tile('--x---', null, null, '----'),
         new Tile('-x----', null, null, '----'),
         new Tile('-x----', null, null, '----'),
         new Tile('-----x', null, null, '----'),
@@ -101,7 +213,7 @@ export const state = () => ({
         new Tile('----x-', null, null, '----'),
       ],
     ],
-    // layouts[2]
+    // layouts[6]
     [
       [
         new Tile('--x---', null, null, '----'),
@@ -122,8 +234,8 @@ export const state = () => ({
         new Tile('x---xx', null, null, 'r-lr'),
       ],
       [
-        new Tile('x-----', null, null, '----'),
-        new Tile('x-----', null, null, '----'),
+        new Tile('x-xx--', null, null, 'srs-'),
+        new Tile('x---xx', null, null, 's-sr'),
         new Tile('x-----', null, null, '----'),
         new Tile('x-----', null, null, '----'),
       ],
@@ -146,7 +258,52 @@ export const state = () => ({
         new Tile('----x-', null, null, '----'),
       ],
     ],
-    // layouts[3]
+    // layouts[7]
+    [
+      [
+        new Tile('------', null, null, '----'),
+        new Tile('--x---', null, null, '----'),
+        new Tile('-xx---', null, null, '-s--'),
+        new Tile('-----x', null, null, '----'),
+      ],
+      [
+        new Tile('--x---', null, null, '----'),
+        new Tile('--x-x-', null, null, '----'),
+        new Tile('x----x', null, null, '--l-'),
+        new Tile('x-----', null, null, '----'),
+      ],
+      [
+        new Tile('--xx--', null, null, '-r--'),
+        new Tile('x---xx', null, null, 's-sr'),
+        new Tile('x--x--', null, null, 's---'),
+        new Tile('----x-', null, null, '----'),
+      ],
+      [
+        new Tile('x-----', null, null, '----'),
+        new Tile('---x--', null, null, '----'),
+        new Tile('xx--x-', null, null, 's--l'),
+        new Tile('-----x', null, null, '----'),
+      ],
+      [
+        new Tile('x-----', null, null, '----'),
+        new Tile('------', null, null, '----'),
+        new Tile('x-x---', null, null, '--r-'),
+        new Tile('----x-', null, null, '----'),
+      ],
+      [
+        new Tile('x-----', null, null, '----'),
+        new Tile('--x---', null, null, '----'),
+        new Tile('---x-x', null, null, '----'),
+        new Tile('-----x', null, null, '----'),
+      ],
+      [
+        new Tile('---x--', null, null, '----'),
+        new Tile('----x-', null, null, '----'),
+        new Tile('---x--', null, null, '----'),
+        new Tile('----x-', null, null, '----'),
+      ],
+    ],
+    // layouts[8]
     [
       [
         new Tile('--x---', null, null, '----'),
@@ -191,7 +348,7 @@ export const state = () => ({
         new Tile('----x-', null, null, '----'),
       ],
     ],
-    // layout[4]
+    // layout[9]
     [
       [
         new Tile('--x---', null, null, '----'),

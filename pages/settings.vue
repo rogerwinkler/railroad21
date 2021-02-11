@@ -58,9 +58,11 @@
       layouts() {
         let arr = [];
         for (let i = 0; i < this.$store.state.layouts.length; i++) {
-          arr.push(`Layout ${i + 1}`);
+          const dimY = this.$store.state.layouts[i].length;
+          const dimX = this.$store.state.layouts[i][0].length;
+          arr.push(`Layout ${i + 1} (Size: ${dimX} x ${dimY})`);
         }
-        console.log('arr=', arr);
+        // console.log('arr=', arr);
         return arr;
       },
     },
@@ -79,7 +81,9 @@
       // console.log('idx=', idx);
       // If layout is not yet defined then select first layout...
       if (idx === -1) idx = 0;
-      this.layout = `Layout ${idx + 1}`;
+      const dimY = this.$store.state.layouts[idx].length;
+      const dimX = this.$store.state.layouts[idx][0].length;
+      this.layout = `Layout ${idx + 1} (Size: ${dimX} x ${dimY})`;
 
       // Initialize speed
       // If speed is not yet defined select "normal" speed...
@@ -88,20 +92,20 @@
 
     methods: {
       layoutChanged(layout) {
-        console.log('layoutChanged::layout=', layout);
+        // console.log('layoutChanged::layout=', layout);
         // Get layout index out of text...
         const idx = parseInt(layout.substr(7)) - 1;
-        console.log('layout index=', idx);
+        // console.log('layout index=', idx);
         this.$store.commit('setCurrentLayout', idx);
       },
 
       speedChanged(speed) {
-        console.log('speedChanged::speed=', speed);
+        // console.log('speedChanged::speed=', speed);
         this.$store.commit('setCurrentSpeed', speed);
       },
 
       noOfTrainsChanged(noOfTrains) {
-        console.log('noOfTrainsChanged::noOfTrains=', noOfTrains);
+        // console.log('noOfTrainsChanged::noOfTrains=', noOfTrains);
         this.$store.commit('setCurrentNoOfTrains', noOfTrains);
       },
     },
