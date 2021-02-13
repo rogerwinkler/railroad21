@@ -73,8 +73,6 @@
       this.$store.commit('disableMenuItem', 0);
       this.$store.commit('disableMenuItem', 3);
 
-      this.calcStaticParams();
-
       // Initialize layout[0] if none is set...
       if (this.$store.state.currentLayout.length === 0) {
         this.$store.commit('setCurrentLayout', 0);
@@ -111,16 +109,6 @@
           }
         }
         return -1;
-      },
-
-      // ----------------------------------------------------
-
-      calcStaticParams() {
-        // this.radius = this.tileSize / 2;
-        // The distance in degrees a train travels on a circle of the
-        // given radius in the given 'intervalInMs' and the 'distPerInteralInPx'.
-        // this.degreesPerInterval =
-        //   (this.distPerIntervalInPx * 180) / (50 * Math.PI);
       },
 
       // ----------------------------------------------------
