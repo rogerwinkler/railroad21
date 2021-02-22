@@ -1,8 +1,20 @@
 import { Tile } from '../helpers/Tile';
+import { strReplaceAt } from '../helpers/utilities';
 
 export const state = () => ({
   // output debug statements if "debug = true"
   debug: false,
+
+  // Global constants...
+  TILE_SIZE: 100, // The size of a tile in dimension x and y.
+  VIEWPORT_OFFSET_X: 0, // Offset of viewport within '.container' starting after navbar.
+  VIEWPORT_OFFSET_Y: 56, // Offset of viewport within '.container' starting after navbar.
+  TOLERANCE_DIST: 15, // Maximal allowed deviation of a clicked position from a segment so that segment still counts as clicked.
+  TRAIN_MAX_WIDTH: 20, // Max width of train in px used for collision detection.
+  TRAIN_MAX_HEIGHT: 34, // Max height of train in px used for collision detection.
+
+  // Game status...
+  gameOver: false,
 
   // Active page. One of "login", "home", "qr-payment", "card-admin"
   // and "card-application".
@@ -14,22 +26,37 @@ export const state = () => ({
     { title: 'Start / Continue', disabled: true },
     { title: 'Stop / Pause', disabled: true },
     { title: 'Settings', disabled: true },
+    { title: 'About', disabled: true },
   ],
 
   currentSpeed: null,
 
+  // speeds: [
+  //   { name: 'very slow', intervalInMs: 20, distPerIntervalInPx: 1 },
+  //   { name: 'slow', intervalInMs: 10, distPerIntervalInPx: 1 },
+  //   { name: 'normal', intervalInMs: 10, distPerIntervalInPx: 2 },
+  //   { name: 'fast', intervalInMs: 10, distPerIntervalInPx: 3 },
+  //   { name: 'very fast', intervalInMs: 6, distPerIntervalInPx: 3 },
+  //   { name: 'hyper speed', intervalInMs: 6, distPerIntervalInPx: 5 },
+  // ],
+
   speeds: [
-    { name: 'very slow', intervalInMs: 20, distPerIntervalInPx: 1 },
-    { name: 'slow', intervalInMs: 10, distPerIntervalInPx: 1 },
-    { name: 'normal', intervalInMs: 10, distPerIntervalInPx: 2 },
-    { name: 'fast', intervalInMs: 10, distPerIntervalInPx: 3 },
-    { name: 'very fast', intervalInMs: 6, distPerIntervalInPx: 3 },
-    { name: 'hyper speed', intervalInMs: 6, distPerIntervalInPx: 5 },
+    { name: '40 km/h', intervalInMs: 30, distPerIntervalInPx: 2 },
+    { name: '50 km/h', intervalInMs: 25, distPerIntervalInPx: 2 },
+    { name: '60 km/h', intervalInMs: 20, distPerIntervalInPx: 2 },
+    { name: '70 km/h', intervalInMs: 15, distPerIntervalInPx: 2 },
+    { name: '80 km/h', intervalInMs: 10, distPerIntervalInPx: 2 },
+    { name: '90 km/h', intervalInMs: 10, distPerIntervalInPx: 2.4 },
+    { name: '100 km/h', intervalInMs: 10, distPerIntervalInPx: 2.7 },
+    { name: '110 km/h', intervalInMs: 10, distPerIntervalInPx: 3 },
+    { name: '120 km/h', intervalInMs: 10, distPerIntervalInPx: 3.4 },
   ],
 
-  currentNoOfTrains: 1,
+  trainPositions: [],
 
-  noOfTrains: [1, 2, 3, 4, 5],
+  currentNoOfTrains: 2,
+
+  noOfTrains: [1, 2, 3, 4, 5, 6, 7, 8],
 
   currentLayout: [],
 
@@ -445,6 +472,54 @@ export const state = () => ({
 // -----------------------------------------------------------
 
 export const mutations = {
+  resetTrainPositions(state) {
+    state.trainPositions = [];
+  },
+
+  setGameOver(state, bool) {
+    if (state.debug) {
+      console.log('store::index.js::setGameOver::bool=', bool);
+    }
+    state.gameOver = bool;
+  },
+
+  setTrainPosition(state, payload) {
+    if (state.debug) {
+      console.log('store::index.js::setTrainPosition::payload=', payload);
+    }
+    state.trainPositions[parseInt(payload.id.substr(6)) - 1] = {
+      id: payload.id,
+      x: payload.left,
+      y: payload.top,
+    };
+  },
+
+  setPoweredSegmentOn(state, payload) {
+    if (state.debug) {
+      console.log('store::index.js::setPoweredSegmentOn::payload=', payload);
+    }
+    state.currentLayout[payload.row][
+      payload.col
+    ].poweredSegments = strReplaceAt(
+      state.currentLayout[payload.row][payload.col].poweredSegments,
+      payload.segment,
+      'x'
+    );
+  },
+
+  setPoweredSegmentOff(state, payload) {
+    if (state.debug) {
+      console.log('store::index.js::setPoweredSegmentOn::payload=', payload);
+    }
+    state.currentLayout[payload.row][
+      payload.col
+    ].poweredSegments = strReplaceAt(
+      state.currentLayout[payload.row][payload.col].poweredSegments,
+      payload.segment,
+      '-'
+    );
+  },
+
   setCurrentNoOfTrains(state, noOfTrains) {
     if (state.debug) {
       console.log(
@@ -469,6 +544,7 @@ export const mutations = {
     state.currentLayout[payload.row][payload.col].switchState =
       payload.switchState;
   },
+
   setCurrentLayout(state, layoutNo) {
     if (state.debug) {
       console.log('store::index.js::setCurrentLayout::layoutNo=', layoutNo);

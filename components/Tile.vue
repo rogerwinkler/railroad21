@@ -8,7 +8,7 @@
     >
       <line
         v-if="segments[0]"
-        class="seg-0"
+        :class="`${id}-seg-0`"
         x1="50"
         y1="0"
         x2="50"
@@ -16,7 +16,7 @@
       ></line>
       <line
         v-if="segments[1]"
-        class="seg-1"
+        :class="`${id}-seg-1`"
         x1="0"
         y1="50"
         x2="100"
@@ -24,22 +24,22 @@
       ></line>
       <path
         v-if="segments[2]"
-        class="seg-2"
+        :class="`${id}-seg-2`"
         d="M 50 100 A 50 50 0 0 1 100 50"
       ></path>
       <path
         v-if="segments[3]"
-        class="seg-3"
+        :class="`${id}-seg-3`"
         d="M 100 50 A 50 50 0 0 1 50 0"
       ></path>
       <path
         v-if="segments[4]"
-        class="seg-4"
+        :class="`${id}-seg-4`"
         d="M 50 0 A 50 50 0 0 1 0 50"
       ></path>
       <path
         v-if="segments[5]"
-        class="seg-5"
+        :class="`${id}-seg-5`"
         d="M 0 50 A 50 50 0 0 1 50 100"
       ></path>
     </svg>
@@ -71,9 +71,10 @@
 export default {
   data() {
     return {
-      switchState: "----",
-      segments: [],
-      switchSegments: [],
+      switchState: "----", // State of switch (s, l, r) at each of the four access points of the tile.
+      segments: [], // Array of bool indicating if there's a segment of that index (true) or not (false).
+      switchSegments: [], // Array indicating the switch posibilities (s, l, r) of each access point of the tile.
+      segIsPowered: [], // Array indicating if segment of index has power (true) or not (false).
     }
   },
 
@@ -122,12 +123,42 @@ export default {
     // console.log("CurveStraight.vue::mounted");
     // console.log(`this.row=${this.row}, this.col=${this.col}`);
     this.segments = this.segmentStringToBoolArr(this.segmentString);
+    this.segIsPowered = this.segmentStringToBoolArr(this.segmentString);
     this.calcSwitchSegments();
     this.switchState = this.initSwitch;
     // console.log("mounted::this.switchstate=", this.switchState);
+
+    this.$root.$on('togglepower', this.handleTogglePower);
   },
 
   methods: {
+    handleTogglePower(payload) {
+      // console.log("handleTogglePower::payload=", payload);
+      if (this.id === `tile-${payload.row}-${payload.col}`) {
+        // This is the correct tile...
+        // console.log("it's me!!!! ID=", this.id);
+
+        // get the segment
+        const seg = document.querySelector(`.tile-${payload.row}-${payload.col}-seg-${payload.segment}`);
+        // console.log("seg=", seg);
+
+        // toggle segment/power
+        if (this.segIsPowered[payload.segment]) {
+          this.segIsPowered[payload.segment] = false;
+          seg.classList.add("power-off");
+          this.$store.commit("setPoweredSegmentOff", payload);
+        } else {
+          this.segIsPowered[payload.segment] = true;
+          seg.classList.remove("power-off");
+          this.$store.commit("setPoweredSegmentOn", payload);
+          this.$root.$emit("poweron", payload);
+        }
+        // console.log("poweredSegments=", this.$store.state.currentLayout[payload.row][payload.col].poweredSegments);
+      } else {
+        return;
+      }
+    },
+
     calcSwitchSegments() {
       // console.log("calcSwitchSegments");
       this.switchSegments[0] = [];
@@ -213,28 +244,32 @@ export default {
   position: absolute;
   width: 24px;
   height: 24px;
+  z-index: +10;
 }
 .btn-0 {
-  left: 58px;
+  left: 62px;
   top: 2px;
 }
 .btn-1 {
   left: 74px;
-  top: 58px;
+  top: 62px;
 }
 .btn-2 {
-  left: 18px;
+  left: 14px;
   top: 75px;
 }
 .btn-3 {
   left: 2px;
-  top: 18px;
+  top: 14px;
 }
 path,
 line {
   stroke: black;
   stroke-width: 5px;
   fill: none;
+}
+.power-off {
+  stroke: #aaa;
 }
 div {
   left: var(--left-pos);

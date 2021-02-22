@@ -7,35 +7,29 @@
         Select Layout
         <v-select
           v-model="layout"
-          class="inp inp-select-1"
+          class="inp"
           :items="layouts"
           single-line
           @change="layoutChanged(layout)"
-          :menu-props="{ offsetY: true }"
-          attach=".inp-select-1"
         ></v-select>
         Select Speed
         <v-select
           v-model="speed"
-          class="inp inp-select-2"
+          class="inp"
           :items="speeds"
           item-text="name"
           item-value="name"
           return-object
           single-line
           @change="speedChanged(speed.name)"
-          :menu-props="{ offsetY: true }"
-          attach=".inp-select-2"
         ></v-select>
         Select Number of Trains
         <v-select
           v-model="noOfTrains"
-          class="inp inp-select-3"
+          class="inp"
           :items="noOfTrainsArr"
           single-line
           @change="noOfTrainsChanged(noOfTrains)"
-          :menu-props="{ offsetY: true }"
-          attach=".inp-select-3"
         ></v-select>
       </v-card-text>
     </v-card>
@@ -124,10 +118,5 @@
   }
   .inp {
     width: 100%;
-  }
-  .inp-select-1,
-  .inp-select-2,
-  .inp-select-3 {
-    margin-top: 0px;
   }
 </style>

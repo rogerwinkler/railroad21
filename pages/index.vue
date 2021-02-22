@@ -13,7 +13,26 @@
         />
       </span>
     </span>
-    <Train id="train" />
+    <Train v-if="noOfTrains > 0" id="train-1" />
+    <Train v-if="noOfTrains > 1" id="train-2" />
+    <Train v-if="noOfTrains > 2" id="train-3" />
+    <Train v-if="noOfTrains > 3" id="train-4" />
+    <Train v-if="noOfTrains > 4" id="train-5" />
+    <Train v-if="noOfTrains > 5" id="train-6" />
+    <Train v-if="noOfTrains > 6" id="train-7" />
+    <Train v-if="noOfTrains > 7" id="train-8" />
+
+    <!-- alert dialog -->
+    <v-alert
+      :value="gameOver"
+      class="alert primary--text"
+      elevation="10"
+      color="secondary"
+      transition="scale-transition"
+    >
+      !!!!!!! G A M E --- O V E R !!!!!!!
+    </v-alert>
+    <!-- end alert dialog -->
   </div>
 </template>
 
@@ -21,32 +40,22 @@
   export default {
     data() {
       return {
-        tileSize: 100, // The size of a tile in dimension x and y.
-        tileX: 50, // Position of train within the current tile.
-        tileY: 200, // Position of train within the current tile.
-        tileRow: 2, // Row number beginning at 0 of current tile.
-        tileCol: 0, // Column number beginning at 0 of current tile.
-        train: null, // HTML element (<div>) of train.
-        translateX: -50, // Correction of train's position within its viewbox to tile positioning.
-        translateY: -50, // Correction of train's position within its viewbox to tile positioning.
-        segFrom: 2, // Current segment of current tile the train travels on.
-        segTo: 0, // Current segment of current tile the train travels on.
-        intervalInMs: 10, // can go down to 1, default 10, interval when train is running at full speed.
-        distPerIntervalInPx: 2, // max 3!!!, default 2, distance per interval when train is running at full speed.
-        // Static params (constants or calculated only once)
-        // radius: null, // Radius of curves/bends
-        // degreesPerInterval: null, // The distance in degrees a train travels on a circle
-        interval: 180, // Current interval at which the training is running, varies from stopped to running.
-        stopInterval: 180, // When this interval in ms is reached, the train stops.
-        incInterval: 0, // The interval is incremented by this amount in ms until stopInterval is reached and the train stops. incInterval is incremented linearly.
-        decInterval: 20, // The interval is decremented by this amount in ms until the train reaches full speed. decInterval is decremented linearly.
-        direction: 's', // The direction in which the train is moving on a segment (s=straiht, l=left-arc, r=right-arc).
-        rotationInDeg: 0, // Rotation of the train in degrees.
-        alpha: 0, // The angle of the train's position if on a circle segment.
-        incX: 0, // Increment in px on x-axis a train travels during an 'intervalInMs'.
-        incY: 0, // Increment in px on y-axis a train travels during an 'intervalInMs'.
-        mode: 'stopped', // A train is in exactly one of four modes: stopped, starting, running or stopping. mode is used to simulate accelaration and slow down.
-        hasBeenRun: false, // Allow continue only if train has been run before.
+        tileSize: this.$store.state.TILE_SIZE, // The size of a tile in dimension x and y.
+        offsetX: this.$store.state.VIEWPORT_OFFSET_X,
+        offsetY: this.$store.state.VIEWPORT_OFFSET_Y,
+        tolerance: this.$store.state.TOLERANCE_DIST,
+        // The radius of the circle defined by the trains bounding box.
+        // Collision occurs if the distance between two trains is smaller than twice the collisionRadius.
+        // The bounding box of train is a rectangle of TRAIN_MAX_WIDTH x TRAIN_MAX_HEIGHT.
+        // Calculate the radius of the circle centered in the center of the rectangle
+        // that goes through all four corners of the rectangle (pythagoras)...
+        // collisionRadius: Math.sqrt(
+        //   Math.pow(this.$store.state.TRAIN_MAX_WIDTH / 2, 2) +
+        //     Math.pow(this.$store.state.TRAIN_MAX_HEIGHT / 2, 2)
+        // ),
+        // collisionDetectionIntervalId: null,
+        // collisionDetectionInterval: 10,
+        // isCollisionDetectionOn: false,
       };
     },
 
@@ -55,532 +64,247 @@
         return this.$store.state.currentLayout;
       },
 
-      // The distance in degrees a train travels on a circle
-      degreesPerInterval() {
-        return (this.distPerIntervalInPx * 180) / (50 * Math.PI);
+      gameOver() {
+        return this.$store.state.gameOver;
       },
 
-      // Radius of curves / bends
-      radius() {
-        return this.tileSize / 2;
+      noOfTrains() {
+        return this.$store.state.currentNoOfTrains;
       },
     },
 
     mounted() {
-      // console.log("settings.vue::mounted");
+      console.error('index.vue::mounted');
+
+      // Mark available trains as active...
+      // let train;
+      // train = document.getElementById('train-1');
+      // console.log('train1=', train);
+      // for (let i = 0; i < this.noOfTrains; i++) {
+      //   train = document.getElementById(`train-${i + 1}`);
+      //   if (!!train) {
+      //     console.log('train=', train);
+      //     train.classList.add('active-train');
+      //     console.log('train.classList=', train.classList);
+      //   }
+      // }
+
       this.$store.commit('setCurrentPage', 'Home');
       this.$store.commit('enableAllMenuItems');
       this.$store.commit('disableMenuItem', 0);
       this.$store.commit('disableMenuItem', 3);
+      this.$store.commit('setGameOver', false);
 
-      // Initialize layout[0] if none is set...
-      if (this.$store.state.currentLayout.length === 0) {
-        this.$store.commit('setCurrentLayout', 0);
-      }
-      // console.log("this.layout=", this.layout);
+      const cont = document.querySelector('.container');
+      // console.log('cont=', cont);
+      cont.addEventListener('click', this.handleClick);
 
-      // Set speed...
-      if (this.$store.state.currentSpeed === null) {
-        this.$store.commit('setCurrentSpeed', 'normal');
-      }
-      const idx = this.findSpeedIndex(this.$store.state.currentSpeed);
-      // console.log('idx=', idx);
-      this.intervalInMs = this.$store.state.speeds[idx].intervalInMs;
-      this.distPerIntervalInPx = this.$store.state.speeds[
-        idx
-      ].distPerIntervalInPx;
+      // detect collisions...
+      // this.startCollisionDetection();
+    },
 
-      this.$root.$on('reset', this.reset);
-      this.$root.$on('startcontinue', this.startOrContinue);
-      this.$root.$on('stoppause', this.stopOrPause);
+    destroyed() {
+      // console.log('index.vue::destroyed');
 
-      // Initialize and position train...
-      this.train = document.querySelector('.train');
-      this.initTrain();
+      // clear clear detection interval...
+      // this.stopCollisionDetection();
+
+      // Send instruction to trains to destroy themselves...
+      // this.$root.$emit('destroy');
+
+      // Remove trains
+      // const content = document.querySelector('.content');
+      // const trains = document.querySelectorAll('.train');
+      // console.log('trains=', trains);
+      // for (let i = 0; i < trains.length; i++) {
+      //   content.removeChild(trains[i]);
+      // }
+
+      // Mark available trains as inactive
+      // let train;
+      // for (let i = 0; i < this.noOfTrains; i++) {
+      //   train = document.getElementById(`train-${i + 1}`);
+      //   if (!!train) {
+      //     console.log('train=', train);
+      //     train.classList.remove('active-train');
+      //     console.log('train.classList=', train.classList);
+      //   }
+      // }
+
+      const cont = document.querySelector('.container');
+      cont.removeEventListener('click', this.handleClick);
     },
 
     methods: {
-      // ----------------------------------------------------
+      // startCollisionDetection() {
+      //   console.log(
+      //     'startCollisionDetection::this.isCollisionDetectionOn=',
+      //     this.isCollisionDetectionOn
+      //   );
+      //   if (!this.isCollisionDetectionOn) {
+      //     this.collisionDetectionIntervalId = setInterval(
+      //       this.detectCollision,
+      //       this.collisionDetectionInterval
+      //     );
+      //   }
+      // },
 
-      findSpeedIndex(speed) {
-        for (let i = 0; i < this.$store.state.speeds.length; i++) {
-          if (this.$store.state.speeds[i].name === speed) {
-            return i;
-          }
-        }
-        return -1;
-      },
+      // stopCollisionDetection() {
+      //   console.log(
+      //     'stopCollisionDetection::this.isCollisionDetectionOn=',
+      //     this.isCollisionDetectionOn
+      //   );
+      //   if (this.isCollisionDetectionOn) {
+      //     clearInterval(this.collisionDetectionIntervalId);
+      //   }
+      // },
 
-      // ----------------------------------------------------
+      // detectCollision() {
+      //   console.log('index.vue::detectCollision');
+      //   // Compare each train's position with each other train's position...
+      //   let x1, y1, x2, y2;
+      //   for (let j = 0; j < this.$store.state.trainPositions.length - 1; j++) {
+      //     for (
+      //       let i = j + 1;
+      //       i < this.$store.state.trainPositions.length;
+      //       i++
+      //     ) {
+      //       x1 = this.$store.state.trainPositions[j].x;
+      //       y1 = this.$store.state.trainPositions[j].y;
+      //       x2 = this.$store.state.trainPositions[i].x;
+      //       y2 = this.$store.state.trainPositions[i].y;
 
-      initTrain() {
-        this.mode = 'stopped';
-        this.hasBeenRun = false;
-        this.tileRow = 2;
-        this.tileCol = 0;
-        this.tileX = 50;
-        this.tileY = 100;
-        this.segTo = 0; // initialize segTo according to prior tile (depending on (tileX, tileY))!!!
-        this.rotationInDeg = 0;
-        this.positionTrain(
-          this.tileRow,
-          this.tileCol,
-          this.tileX,
-          this.tileY,
-          this.rotationInDeg
-        );
-        this.selectNextSegment(this.segTo);
-        // console.log(`this.segFrom=${this.segFrom}, this.segTo=${this.segTo}`);
-      },
+      //       // Calculate distance between this train and other train...
+      //       const dist = Math.sqrt(
+      //         Math.pow(Math.abs(x1 - x2), 2) + Math.pow(Math.abs(y1 - y2), 2)
+      //       );
+      //       if (dist < this.collisionRadius) {
+      //         // we have a collision...
+      //         console.log('------------------COLLISION------------------');
+      //         this.$root.$emit('collision', {
+      //           trainId1: this.$store.state.trainPositions[j].id,
+      //           trainId2: this.$store.state.trainPositions[i].id,
+      //         });
+      //         this.stopCollisionDetection();
+      //         return;
+      //       }
+      //     }
+      //   }
+      // },
 
-      // ----------------------------------------------------
+      handleClick(e) {
+        // console.log('handleClick::e=', e);
+        e.stopPropagation();
 
-      /**
-       * Select the next segment of a new tile when the end of the
-       * current segment is reached. segFrom and segTo are adjusted
-       * accordingly.
-       */
-      selectNextSegment(segTo) {
-        switch (segTo) {
-          case 0:
-            this.segFrom = 2;
-            break;
-          case 1:
-            this.segFrom = 3;
-            break;
-          case 2:
-            this.segFrom = 0;
-            break;
-          case 3:
-            this.segFrom = 1;
-            break;
-        }
-
-        const switchState = this.layout[this.tileRow][this.tileCol].switchState[
-          this.segFrom
-        ];
-        switch (switchState) {
-          case 's':
-            switch (this.segFrom) {
-              case 0:
-                this.segTo = 2;
-                break;
-              case 1:
-                this.segTo = 3;
-                break;
-              case 2:
-                this.segTo = 0;
-                break;
-              case 3:
-                this.segTo = 1;
-                break;
-            }
-            break;
-          case 'l':
-            switch (this.segFrom) {
-              case 0:
-                this.segTo = 1;
-                break;
-              case 1:
-                this.segTo = 2;
-                break;
-              case 2:
-                this.segTo = 3;
-                break;
-              case 3:
-                this.segTo = 0;
-                break;
-            }
-            break;
-          case 'r':
-            switch (this.segFrom) {
-              case 0:
-                this.segTo = 3;
-                break;
-              case 1:
-                this.segTo = 0;
-                break;
-              case 2:
-                this.segTo = 1;
-                break;
-              case 3:
-                this.segTo = 2;
-                break;
-            }
-            break;
-          case '-':
-            // no switch, find segment
-            this.segTo = this.findSegmentEndOfAccessPoint(this.segFrom);
-            break;
-        }
-      },
-
-      // ----------------------------------------------------
-
-      findSegmentEndOfAccessPoint(ap) {
-        const segments = this.layout[this.tileRow][this.tileCol].segments;
-        switch (ap) {
-          case 0:
-            if (segments[0] === 'x') return 2;
-            if (segments[3] === 'x') return 1;
-            if (segments[4] === 'x') return 3;
-            break;
-          case 1:
-            if (segments[1] === 'x') return 3;
-            if (segments[2] === 'x') return 2;
-            if (segments[3] === 'x') return 0;
-            break;
-          case 2:
-            if (segments[0] === 'x') return 0;
-            if (segments[2] === 'x') return 1;
-            if (segments[5] === 'x') return 3;
-            break;
-          case 3:
-            if (segments[1] === 'x') return 1;
-            if (segments[4] === 'x') return 0;
-            if (segments[5] === 'x') return 2;
-            break;
-        }
-      },
-
-      // ----------------------------------------------------
-
-      reset() {
-        // console.log('reset');
-        this.initTrain();
-      },
-
-      // ----------------------------------------------------
-
-      startOrContinue() {
-        // console.log("start");
-        if (this.mode === 'stopped') {
-          this.mode = 'starting';
-          this.interval = this.stopInterval; // Start train slowly.
-          this.incInterval = 0;
-          this.decInterval = 20;
-          if (this.hasBeenRun) {
-            // continue
-            this.moveSegment();
-          } else {
-            // start
-            this.moveTrain();
-            this.hasBeenRun = true;
-          }
-        }
-      },
-
-      // ----------------------------------------------------
-
-      stopOrPause() {
-        // console.log('stopOrPause');
-        if (!(this.mode === 'stopped')) {
-          this.mode = 'stopping';
-        }
-      },
-
-      // ----------------------------------------------------
-
-      positionTrain(tileRow, tileCol, tileX, tileY, rotationAngle) {
-        // console.log(
-        //   `tileRow=${tileRow}, tileCol=${tileCol}, tileX=${tileX}, tileY=${tileY}`
-        // );
-        this.tileRow = tileRow;
-        this.tileCol = tileCol;
-        this.tileX = tileX;
-        this.tileY = tileY;
-        this.train.style.top =
-          (
-            this.tileRow * this.tileSize +
-            this.tileY +
-            this.translateY
-          ).toString() + 'px';
-        this.train.style.left =
-          (
-            this.tileCol * this.tileSize +
-            this.tileX +
-            this.translateX
-          ).toString() + 'px';
-        this.train.style.transform = `rotate(${rotationAngle}deg)`;
-      },
-
-      // ----------------------------------------------------
-
-      /**
-       * Calculate the point of intersection of a line at an angle
-       * with a circle of a given radius and that's centered at (0,0)
-       * returning an object {x, y}.
-       * @param {number} alpha The angle in degrees.
-       * @param {number} radius The radius in px.
-       */
-      calcIntersectionPoint(alpha, radius) {
-        // console.log(`calcIntersectionPoint::alpha=${alpha}, radius=${radius}`);
-
-        function getTanFromDegrees(degrees) {
-          return Math.tan((degrees * Math.PI) / 180);
-        }
-
-        const tanAlpha = getTanFromDegrees(alpha);
-        const tanAlphaPower2 = tanAlpha * tanAlpha;
-        const radiusPower2 = radius * radius;
-        // console.log(
-        //   `tanAlpha=${tanAlpha}, tanAlphaPower2=${tanAlphaPower2}, radiusPower2=${radiusPower2}`
-        // );
-
-        const y = Math.sqrt(radiusPower2 / (1 / tanAlphaPower2 + 1));
-        const x = y / tanAlpha;
-        // console.log(`x=${x}, y=${y}`);
-        return { x, y };
-      },
-
-      // ----------------------------------------------------
-
-      /**
-       * Moves the train along the current segment...
-       */
-      moveSegment() {
-        // console.log("moveSegment::this.mode=", this.mode);
-        let interval;
-
-        this.positionTrain(
-          this.tileRow,
-          this.tileCol,
-          this.tileX,
-          this.tileY,
-          this.rotationInDeg
-        );
-
-        if (this.direction === 's') {
-          this.tileX += this.incX;
-          this.tileY += this.incY;
-        } else {
-          // console.log("this.degreesPerInterval=", this.degreesPerInterval);
-          this.alpha += this.degreesPerInterval;
-          // console.log("this.alpha=", this.alpha);
-          let { x, y } = this.calcIntersectionPoint(this.alpha, this.radius);
-          // console.log(`x=${x}, y=${y}`);
-          if (this.direction === 'r') {
-            switch (this.segFrom) {
-              case 0:
-                this.tileX = this.tileSize / 2 - this.radius + x;
-                this.tileY = 0 + y;
-                this.rotationInDeg = 180 + this.alpha;
-                break;
-              case 1:
-                this.tileX = this.tileSize - y;
-                this.tileY = this.tileSize / 2 - this.radius + x;
-                this.rotationInDeg = 270 + this.alpha;
-                break;
-              case 2:
-                this.tileX = this.tileSize / 2 + this.radius - x;
-                this.tileY = this.tileSize - y;
-                this.rotationInDeg = this.alpha;
-                break;
-              case 3:
-                this.tileX = 0 + y;
-                this.tileY = this.tileSize / 2 + this.radius - x;
-                this.rotationInDeg = 90 + this.alpha;
-                break;
-            }
-          } else if (this.direction === 'l') {
-            switch (this.segFrom) {
-              case 0:
-                this.tileX = this.tileSize / 2 + this.radius - x;
-                this.tileY = 0 + y;
-                this.rotationInDeg = 180 - this.alpha;
-                break;
-              case 1:
-                this.tileX = this.tileSize - y;
-                this.tileY = this.tileSize / 2 + this.radius - x;
-                this.rotationInDeg = 270 - this.alpha;
-                break;
-              case 2:
-                this.tileX = this.tileSize / 2 - this.radius + x;
-                this.tileY = this.tileSize - y;
-                this.rotationInDeg = -this.alpha;
-                break;
-              case 3:
-                this.tileX = 0 + y;
-                this.tileY = this.tileSize / 2 - this.radius + x;
-                this.rotationInDeg = 90 - this.alpha;
-                break;
-            }
-          }
-        }
-
-        // console.log(`this.tileX=${this.tileX}, this.tileY=${this.tileY}`);
-
-        // Check if end of segment reached...
+        // Find position of tile that contains (x,y)...
+        const tileCol = Math.floor((e.clientX - this.offsetX) / this.tileSize);
+        const tileRow = Math.floor((e.clientY - this.offsetY) / this.tileSize);
+        // console.log(`tileCol=${tileCol}, tileRow=${tileRow}`);
         if (
-          (this.segTo === 0 && this.tileY <= 0) ||
-          (this.segTo === 1 && this.tileX >= this.tileSize) ||
-          (this.segTo === 2 && this.tileY >= this.tileSize) ||
-          (this.segTo === 3 && this.tileX <= 0)
+          tileCol > this.layout[0].length - 1 ||
+          tileRow > this.layout.length - 1
         ) {
-          // console.log("end of segment reached");
-          interval = this.interval;
-          new Promise(function (resolve) {
-            // console.log("inside 1. promise::interval=", interval);
-            setTimeout(() => resolve(1), interval);
-          }).then(this.moveTrain);
-        } else {
-          switch (this.mode) {
-            case 'running':
-              this.interval = this.intervalInMs;
-              break;
-            case 'starting':
-              this.interval -= this.decInterval;
-              if (this.interval < this.intervalInMs) {
-                this.interval = this.intervalInMs;
-              }
-              this.decInterval -= 1.4;
-              if (this.decInterval < 1) this.decInterval = 1;
-              break;
-            case 'stopping':
-              this.interval += this.incInterval;
-              this.incInterval += 1;
-              if (this.interval >= this.stopInterval) {
-                this.mode = 'stopped';
-              }
-              break;
-          }
-          // console.log("this.interval=", this.interval);
-          interval = this.interval;
-          if (!(this.mode === 'stopped')) {
-            new Promise(function (resolve) {
-              // console.log("inside 2. promise::interval=", interval);
-              setTimeout(() => resolve(1), interval);
-            }).then(this.moveSegment);
-          }
-        }
-      },
-
-      // ----------------------------------------------------
-
-      moveTrain() {
-        // console.log("moveTrain");
-        const scaleInc = 1; // Scale factor to be applied, must correspond with the scaling factor of the layouts.
-
-        if (this.mode === 'stopped') return;
-
-        // Initialize rotation angle...
-        this.alpha = 0;
-
-        // Check if at end of tile...
-        switch (this.segTo) {
-          case 0:
-            if (this.tileY <= 0) {
-              this.tileRow -= 1;
-              this.tileX = this.tileSize / 2;
-              this.tileY = this.tileSize;
-              this.selectNextSegment(this.segTo);
-            }
-            break;
-          case 1:
-            if (this.tileX >= this.tileSize) {
-              this.tileCol += 1;
-              this.tileX = 0;
-              this.tileY = this.tileSize / 2;
-              this.selectNextSegment(this.segTo);
-            }
-            break;
-          case 2:
-            if (this.tileY >= this.tileSize) {
-              this.tileRow += 1;
-              this.tileX = this.tileSize / 2;
-              this.tileY = 0;
-              this.selectNextSegment(this.segTo);
-            }
-            break;
-          case 3:
-            if (this.tileX <= 0) {
-              this.tileCol -= 1;
-              this.tileX = this.tileSize;
-              this.tileY = this.tileSize / 2;
-              this.selectNextSegment(this.segTo);
-            }
-            break;
-        }
-
-        const segment = this.segFrom.toString() + '-' + this.segTo.toString();
-        // Calc new position...
-        switch (segment) {
-          case '0-2':
-            this.direction = 's';
-            this.incX = 0;
-            this.incY = this.distPerIntervalInPx * scaleInc;
-            this.rotationInDeg = 180;
-            break;
-          case '2-0':
-            this.direction = 's';
-            this.incX = 0;
-            this.incY = -this.distPerIntervalInPx * scaleInc;
-            this.rotationInDeg = 0;
-            break;
-          case '3-1':
-            this.direction = 's';
-            this.incX = this.distPerIntervalInPx * scaleInc;
-            this.incY = 0;
-            this.rotationInDeg = 90;
-            break;
-          case '1-3':
-            this.direction = 's';
-            this.incX = -this.distPerIntervalInPx * scaleInc;
-            this.incY = 0;
-            this.rotationInDeg = 270;
-            break;
-          case '0-3':
-            this.direction = 'r';
-            this.incX = -this.distPerIntervalInPx * scaleInc;
-            this.incY = this.distPerIntervalInPx * scaleInc;
-            break;
-          case '3-2':
-            this.direction = 'r';
-            this.incX = this.distPerIntervalInPx * scaleInc;
-            this.incY = this.distPerIntervalInPx * scaleInc;
-            break;
-          case '2-1':
-            this.direction = 'r';
-            this.incX = this.distPerIntervalInPx * scaleInc;
-            this.incY = -this.distPerIntervalInPx * scaleInc;
-            break;
-          case '1-0':
-            this.direction = 'r';
-            this.incX = -this.distPerIntervalInPx * scaleInc;
-            this.incY = -this.distPerIntervalInPx * scaleInc;
-            break;
-          case '0-1':
-            this.direction = 'l';
-            this.incX = this.distPerIntervalInPx * scaleInc;
-            this.incY = this.distPerIntervalInPx * scaleInc;
-            break;
-          case '1-2':
-            this.direction = 'l';
-            this.incX = -this.distPerIntervalInPx * scaleInc;
-            this.incY = this.distPerIntervalInPx * scaleInc;
-            break;
-          case '2-3':
-            this.direction = 'l';
-            this.incX = -this.distPerIntervalInPx * scaleInc;
-            this.incY = -this.distPerIntervalInPx * scaleInc;
-            break;
-          case '3-0':
-            this.direction = 'l';
-            this.incX = this.distPerIntervalInPx * scaleInc;
-            this.incY = -this.distPerIntervalInPx * scaleInc;
-            break;
-        }
-
-        // console.log(`this.incX=${this.incX}, this.incY=${this.incY}`);
-        // console.log("segment=", segment);
-        // console.log("this.direction=", this.direction);
-
-        if (segment === '' || this.direction === '') {
-          console.error('Calculation error in moveTrain()');
+          // click was outside of layout, do nothing...
           return;
         }
 
-        this.moveSegment();
+        // Find position within tile (tileX,tileY) of (x,y)...
+        const tileX = e.clientX - tileCol * this.tileSize - this.offsetX;
+        const tileY = e.clientY - tileRow * this.tileSize - this.offsetY;
+        // console.log(`tileX=${tileX}, tileY=${tileY}`);
+
+        // Calc distances of (x,y) to available segments and store
+        // them in the array distToSegsArr...
+        let distToSegsArr = [];
+        const segments = this.layout[tileRow][tileCol].segments;
+        // console.log('segments=', segments);
+        if (segments[0] === 'x') {
+          distToSegsArr[0] = Math.abs(this.tileSize / 2 - tileX);
+        } else {
+          distToSegsArr[0] = null;
+        }
+        if (segments[1] === 'x') {
+          distToSegsArr[1] = Math.abs(this.tileSize / 2 - tileY);
+        } else {
+          distToSegsArr[1] = null;
+        }
+        if (segments[2] === 'x') {
+          distToSegsArr[2] = Math.round(
+            Math.abs(
+              this.tileSize / 2 -
+                Math.sqrt(
+                  Math.pow(this.tileSize - tileX, 2) +
+                    Math.pow(this.tileSize - tileY, 2)
+                )
+            )
+          );
+        } else {
+          distToSegsArr[2] = null;
+        }
+        if (segments[3] === 'x') {
+          distToSegsArr[3] = Math.round(
+            Math.abs(
+              this.tileSize / 2 -
+                Math.sqrt(
+                  Math.pow(this.tileSize - tileX, 2) + Math.pow(tileY, 2)
+                )
+            )
+          );
+        } else {
+          distToSegsArr[3] = null;
+        }
+        if (segments[4] === 'x') {
+          distToSegsArr[4] = Math.round(
+            Math.abs(
+              this.tileSize / 2 -
+                Math.sqrt(Math.pow(tileX, 2) + Math.pow(tileY, 2))
+            )
+          );
+        } else {
+          distToSegsArr[4] = null;
+        }
+        if (segments[5] === 'x') {
+          distToSegsArr[5] = Math.round(
+            Math.abs(
+              this.tileSize / 2 -
+                Math.sqrt(
+                  Math.pow(tileX, 2) + Math.pow(this.tileSize - tileY, 2)
+                )
+            )
+          );
+        } else {
+          distToSegsArr[5] = null;
+        }
+        // console.log('distToSegsArr=', distToSegsArr);
+
+        // Find closest segment. If more than one are found,
+        // pick the first...
+        let segment = null;
+        let min = this.tileSize;
+        let minIdx = null;
+        for (let i = 0; i < distToSegsArr.length; i++) {
+          if (distToSegsArr[i] !== null && distToSegsArr[i] < min) {
+            min = distToSegsArr[i];
+            minIdx = i;
+          }
+        }
+        if (minIdx !== null) {
+          // segment found
+          if (min <= this.tolerance) {
+            // click was within tolerance distance to segment
+            segment = minIdx;
+          }
+        }
+        if (segment !== null) {
+          // console.log('segment=', segment);
+          this.$root.$emit('togglepower', {
+            col: tileCol,
+            row: tileRow,
+            segment: segment,
+          });
+        } else {
+          // console.log('no segment within tolerance distance found');
+        }
       },
     },
   };

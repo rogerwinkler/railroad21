@@ -74,7 +74,7 @@
           :disabled="page === 'Home'"
           class="secondary--text"
           size="30px"
-          @click.stop="$router.push('/')"
+          @click.stop="goToHome"
           >mdi-home-outline</v-icon
         >
       </div>
@@ -151,6 +151,13 @@
     },
 
     methods: {
+      goToHome() {
+        // console.log('default.vue::goToHome');
+        this.$router.push('/');
+        // location.href = '/';
+        // this.$root.$emit('gotohome');
+      },
+
       handleStop() {
         // console.log('handleStop');
         this.stopped = true;
@@ -160,11 +167,17 @@
       },
 
       handleReset() {
-        // console.log('handleReset');
+        console.log('handleReset');
         this.stopped = true;
         this.$store.commit('enableMenuItem', 2);
         this.$store.commit('disableMenuItem', 3);
+        this.$store.commit('setGameOver', false);
+        this.$store.commit('resetTrainPositions');
         this.$root.$emit('reset');
+        // const content = document.querySelector('.content');
+        // console.log('content=', content);
+        // var event = new Event('customReset');
+        // content.dispatchEvent(event);
       },
 
       handlePlay() {
@@ -177,6 +190,10 @@
 
       handleSettings() {
         // console.log('handleSettings');
+        const trains = document.querySelectorAll('.train');
+        for (let i = 0; i < trains.length; i++) {
+          trains[i].classList.remove('active-train');
+        }
         this.handleStop();
         this.$router.push('/settings');
       },
@@ -186,7 +203,7 @@
         switch (itemNo) {
           case 0:
             // home
-            this.$router.push('/');
+            this.goToHome();
             break;
           case 1:
             this.handleReset();
@@ -199,6 +216,9 @@
             break;
           case 4:
             this.handleSettings();
+            break;
+          case 5:
+            this.$router.push('/about');
             break;
         }
         this.shown = false;

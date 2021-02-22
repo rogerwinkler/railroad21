@@ -38,51 +38,57 @@
  *
  */
 export class Tile {
-  segments = "------"; // 0..5, each character in the string representing one of the six segments of a tile.
-  insulations = "----"; // 0..3, access points can be insulated to prevent power to move through.
-  poweredSegments = "------"; // 0..5 indicates segments with access to power.
-  accessPoints = "----"; // 0..3 access points are derived from the segments.
-  switchState = "----"; // 0..3 current state of switches.
+  segments = '------'; // 0..5, each character in the string representing one of the six segments of a tile.
+  insulations = '----'; // 0..3, access points can be insulated to prevent power to move through.
+  poweredSegments = '------'; // 0..5 indicates segments with access to power.
+  accessPoints = '----'; // 0..3 access points are derived from the segments.
+  switchState = '----'; // 0..3 current state of switches.
 
   constructor(segments, insulations, poweredSegments, switchState) {
     this.segments = segments;
     this.insulations = insulations;
-    this.poweredSegments = poweredSegments;
+    // poweredSegments defaults to segments if null
+    // ==> all segments are powered by default in this case.
+    if (poweredSegments === null) {
+      this.poweredSegments = segments;
+    } else {
+      this.poweredSegments = poweredSegments;
+    }
     this.switchState = switchState;
     this.accessPoints = this.calcAccessPoints();
   }
 
   calcAccessPoints() {
     // console.log("calcAccessPoints");
-    let accPoints = "----";
+    let accPoints = '----';
 
     function replaceAt(str, idx, char) {
       return str.substr(0, idx) + char + str.substr(idx + 1);
     }
 
-    if (this.segments[0] === "x") {
-      accPoints = replaceAt(accPoints, 0, "x");
-      accPoints = replaceAt(accPoints, 2, "x");
+    if (this.segments[0] === 'x') {
+      accPoints = replaceAt(accPoints, 0, 'x');
+      accPoints = replaceAt(accPoints, 2, 'x');
     }
-    if (this.segments[1] === "x") {
-      accPoints = replaceAt(accPoints, 3, "x");
-      accPoints = replaceAt(accPoints, 1, "x");
+    if (this.segments[1] === 'x') {
+      accPoints = replaceAt(accPoints, 3, 'x');
+      accPoints = replaceAt(accPoints, 1, 'x');
     }
-    if (this.segments[2] === "x") {
-      accPoints = replaceAt(accPoints, 2, "x");
-      accPoints = replaceAt(accPoints, 1, "x");
+    if (this.segments[2] === 'x') {
+      accPoints = replaceAt(accPoints, 2, 'x');
+      accPoints = replaceAt(accPoints, 1, 'x');
     }
-    if (this.segments[3] === "x") {
-      accPoints = replaceAt(accPoints, 1, "x");
-      accPoints = replaceAt(accPoints, 0, "x");
+    if (this.segments[3] === 'x') {
+      accPoints = replaceAt(accPoints, 1, 'x');
+      accPoints = replaceAt(accPoints, 0, 'x');
     }
-    if (this.segments[4] === "x") {
-      accPoints = replaceAt(accPoints, 0, "x");
-      accPoints = replaceAt(accPoints, 3, "x");
+    if (this.segments[4] === 'x') {
+      accPoints = replaceAt(accPoints, 0, 'x');
+      accPoints = replaceAt(accPoints, 3, 'x');
     }
-    if (this.segments[5] === "x") {
-      accPoints = replaceAt(accPoints, 3, "x");
-      accPoints = replaceAt(accPoints, 2, "x");
+    if (this.segments[5] === 'x') {
+      accPoints = replaceAt(accPoints, 3, 'x');
+      accPoints = replaceAt(accPoints, 2, 'x');
     }
     // console.log("accPoints=", accPoints);
     return accPoints;
