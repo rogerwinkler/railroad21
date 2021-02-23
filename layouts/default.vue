@@ -127,11 +127,14 @@
     data() {
       return {
         shown: false,
-        stopped: true,
       };
     },
 
     computed: {
+      stopped() {
+        return this.$store.state.gameStopped;
+      },
+
       items() {
         return this.$store.state.menuItems;
       },
@@ -147,7 +150,7 @@
 
     mounted() {
       // console.log('layouts::default.vue::mounted');
-      this.handleReset();
+      // this.handleReset();
     },
 
     methods: {
@@ -160,29 +163,24 @@
 
       handleStop() {
         // console.log('handleStop');
-        this.stopped = true;
+        this.$store.commit('setGameStopped', true);
         this.$store.commit('enableMenuItem', 2);
         this.$store.commit('disableMenuItem', 3);
         this.$root.$emit('stoppause');
       },
 
       handleReset() {
-        console.log('handleReset');
-        this.stopped = true;
+        // console.log('handleReset');
+        this.$store.commit('setGameStopped', true);
         this.$store.commit('enableMenuItem', 2);
         this.$store.commit('disableMenuItem', 3);
         this.$store.commit('setGameOver', false);
-        this.$store.commit('resetTrainPositions');
         this.$root.$emit('reset');
-        // const content = document.querySelector('.content');
-        // console.log('content=', content);
-        // var event = new Event('customReset');
-        // content.dispatchEvent(event);
       },
 
       handlePlay() {
         // console.log('handlePlay');
-        this.stopped = false;
+        this.$store.commit('setGameStopped', false);
         this.$store.commit('enableMenuItem', 3);
         this.$store.commit('disableMenuItem', 2);
         this.$root.$emit('startcontinue');

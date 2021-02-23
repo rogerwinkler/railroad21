@@ -244,7 +244,7 @@ export default {
   position: absolute;
   width: 24px;
   height: 24px;
-  z-index: +10;
+  z-index: +1;
 }
 .btn-0 {
   left: 62px;

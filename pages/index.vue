@@ -13,14 +13,10 @@
         />
       </span>
     </span>
-    <Train v-if="noOfTrains > 0" id="train-1" />
-    <Train v-if="noOfTrains > 1" id="train-2" />
-    <Train v-if="noOfTrains > 2" id="train-3" />
-    <Train v-if="noOfTrains > 3" id="train-4" />
-    <Train v-if="noOfTrains > 4" id="train-5" />
-    <Train v-if="noOfTrains > 5" id="train-6" />
-    <Train v-if="noOfTrains > 6" id="train-7" />
-    <Train v-if="noOfTrains > 7" id="train-8" />
+
+    <span v-for="n in noOfTrains" :key="`train-${n}`">
+      <Train :id="`train-${n}`" />
+    </span>
 
     <!-- alert dialog -->
     <v-alert
@@ -44,18 +40,6 @@
         offsetX: this.$store.state.VIEWPORT_OFFSET_X,
         offsetY: this.$store.state.VIEWPORT_OFFSET_Y,
         tolerance: this.$store.state.TOLERANCE_DIST,
-        // The radius of the circle defined by the trains bounding box.
-        // Collision occurs if the distance between two trains is smaller than twice the collisionRadius.
-        // The bounding box of train is a rectangle of TRAIN_MAX_WIDTH x TRAIN_MAX_HEIGHT.
-        // Calculate the radius of the circle centered in the center of the rectangle
-        // that goes through all four corners of the rectangle (pythagoras)...
-        // collisionRadius: Math.sqrt(
-        //   Math.pow(this.$store.state.TRAIN_MAX_WIDTH / 2, 2) +
-        //     Math.pow(this.$store.state.TRAIN_MAX_HEIGHT / 2, 2)
-        // ),
-        // collisionDetectionIntervalId: null,
-        // collisionDetectionInterval: 10,
-        // isCollisionDetectionOn: false,
       };
     },
 
@@ -74,124 +58,27 @@
     },
 
     mounted() {
-      console.error('index.vue::mounted');
-
-      // Mark available trains as active...
-      // let train;
-      // train = document.getElementById('train-1');
-      // console.log('train1=', train);
-      // for (let i = 0; i < this.noOfTrains; i++) {
-      //   train = document.getElementById(`train-${i + 1}`);
-      //   if (!!train) {
-      //     console.log('train=', train);
-      //     train.classList.add('active-train');
-      //     console.log('train.classList=', train.classList);
-      //   }
-      // }
+      // console.log('index.vue::mounted');
 
       this.$store.commit('setCurrentPage', 'Home');
       this.$store.commit('enableAllMenuItems');
       this.$store.commit('disableMenuItem', 0);
       this.$store.commit('disableMenuItem', 3);
       this.$store.commit('setGameOver', false);
+      this.$store.commit('setGameStopped', false);
 
       const cont = document.querySelector('.container');
       // console.log('cont=', cont);
       cont.addEventListener('click', this.handleClick);
-
-      // detect collisions...
-      // this.startCollisionDetection();
     },
 
     destroyed() {
       // console.log('index.vue::destroyed');
-
-      // clear clear detection interval...
-      // this.stopCollisionDetection();
-
-      // Send instruction to trains to destroy themselves...
-      // this.$root.$emit('destroy');
-
-      // Remove trains
-      // const content = document.querySelector('.content');
-      // const trains = document.querySelectorAll('.train');
-      // console.log('trains=', trains);
-      // for (let i = 0; i < trains.length; i++) {
-      //   content.removeChild(trains[i]);
-      // }
-
-      // Mark available trains as inactive
-      // let train;
-      // for (let i = 0; i < this.noOfTrains; i++) {
-      //   train = document.getElementById(`train-${i + 1}`);
-      //   if (!!train) {
-      //     console.log('train=', train);
-      //     train.classList.remove('active-train');
-      //     console.log('train.classList=', train.classList);
-      //   }
-      // }
-
       const cont = document.querySelector('.container');
       cont.removeEventListener('click', this.handleClick);
     },
 
     methods: {
-      // startCollisionDetection() {
-      //   console.log(
-      //     'startCollisionDetection::this.isCollisionDetectionOn=',
-      //     this.isCollisionDetectionOn
-      //   );
-      //   if (!this.isCollisionDetectionOn) {
-      //     this.collisionDetectionIntervalId = setInterval(
-      //       this.detectCollision,
-      //       this.collisionDetectionInterval
-      //     );
-      //   }
-      // },
-
-      // stopCollisionDetection() {
-      //   console.log(
-      //     'stopCollisionDetection::this.isCollisionDetectionOn=',
-      //     this.isCollisionDetectionOn
-      //   );
-      //   if (this.isCollisionDetectionOn) {
-      //     clearInterval(this.collisionDetectionIntervalId);
-      //   }
-      // },
-
-      // detectCollision() {
-      //   console.log('index.vue::detectCollision');
-      //   // Compare each train's position with each other train's position...
-      //   let x1, y1, x2, y2;
-      //   for (let j = 0; j < this.$store.state.trainPositions.length - 1; j++) {
-      //     for (
-      //       let i = j + 1;
-      //       i < this.$store.state.trainPositions.length;
-      //       i++
-      //     ) {
-      //       x1 = this.$store.state.trainPositions[j].x;
-      //       y1 = this.$store.state.trainPositions[j].y;
-      //       x2 = this.$store.state.trainPositions[i].x;
-      //       y2 = this.$store.state.trainPositions[i].y;
-
-      //       // Calculate distance between this train and other train...
-      //       const dist = Math.sqrt(
-      //         Math.pow(Math.abs(x1 - x2), 2) + Math.pow(Math.abs(y1 - y2), 2)
-      //       );
-      //       if (dist < this.collisionRadius) {
-      //         // we have a collision...
-      //         console.log('------------------COLLISION------------------');
-      //         this.$root.$emit('collision', {
-      //           trainId1: this.$store.state.trainPositions[j].id,
-      //           trainId2: this.$store.state.trainPositions[i].id,
-      //         });
-      //         this.stopCollisionDetection();
-      //         return;
-      //       }
-      //     }
-      //   }
-      // },
-
       handleClick(e) {
         // console.log('handleClick::e=', e);
         e.stopPropagation();
@@ -319,5 +206,8 @@
     height: calc(100vh - 140px);
     width: 80%;
     margin-left: 10%;
+  }
+  .alert {
+    z-index: +2;
   }
 </style>

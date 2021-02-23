@@ -165,7 +165,7 @@
       // ----------------------------------------------------
 
       handleCollision(payload) {
-        console.log('handleCollision::payload=', payload);
+        // console.log('handleCollision::payload=', payload);
         if (this.id === payload.trainId1 || this.id === payload.trainId2) {
           let rand = randomNumber(0, 1);
           if (rand === 0) rand = -1;
@@ -291,7 +291,7 @@
       // ----------------------------------------------------
 
       initTrain() {
-        console.error('initTrain::this.id=', this.id);
+        // console.log('initTrain::this.id=', this.id);
         // this.layout = this.$store.state.currentLayout;
         this.mode = 'stopped';
         this.hasBeenRun = false;
@@ -397,14 +397,14 @@
       // ----------------------------------------------------
 
       findSegmentEndOfAccessPoint(ap) {
-        console.log('findSegmentEndOfAccessPoint::ap=', ap);
-        console.log('typeof(ap)=', typeof ap);
+        // console.log('findSegmentEndOfAccessPoint::ap=', ap);
+        // console.log('typeof(ap)=', typeof ap);
         const segments = this.layout[this.tileRow][this.tileCol].segments;
-        console.log(
-          `this.tileRow=${this.tileRow}, this.tileCol=${this.tileCol}, segments=${segments}`
-        );
-        console.log('this.id=', this.id);
-        console.log('this.layout=', this.layout);
+        // console.log(
+        //   `this.tileRow=${this.tileRow}, this.tileCol=${this.tileCol}, segments=${segments}`
+        // );
+        // console.log('this.id=', this.id);
+        // console.log('this.layout=', this.layout);
         switch (ap) {
           case 0:
             if (segments[0] === 'x') return 2;
@@ -427,13 +427,13 @@
             if (segments[5] === 'x') return 2;
             break;
         }
-        console.error('If you get here, something bad happened!!!');
+        // console.error('If you get here, something bad happened!!!');
       },
 
       // ----------------------------------------------------
 
       reset() {
-        console.error('reset::this.id=', this.id);
+        // console.reset('reset::this.id=', this.id);
         this.initTrain();
       },
 
@@ -493,11 +493,6 @@
         this.train.style.top = top.toString() + 'px';
         this.train.style.left = left.toString() + 'px';
         this.train.style.transform = `rotate(${rotationAngle}deg)`;
-        this.$store.commit('setTrainPosition', {
-          id: this.id,
-          top: top,
-          left: left,
-        });
       },
 
       // ----------------------------------------------------
@@ -592,7 +587,7 @@
         }
         // console.log('segment=', segment);
         if (segment === null) {
-          console.error('Segment not found for power indication!');
+          // console.error('Segment not found for power indication!');
           return true;
         } else {
           if (
@@ -614,43 +609,33 @@
        * circumference. This radius is called the colllisionRadius...
        */
       detectCollision() {
-        // Collision detection is called after positionTrain() thus
-        // this.$store.state.trainPositions is up to date...
-        // Get THIS trains coordinates...
-        const idx = parseInt(this.id.substr(6)) - 1;
-        const x1 = this.$store.state.trainPositions[idx].x;
-        const y1 = this.$store.state.trainPositions[idx].y;
-
-        // Loop over all trainPositions to detect a collision...
-        for (let i = 0; i < this.$store.state.trainPositions.length; i++) {
-          // do not detect collision with my-self (train)...
-          if (i !== idx) {
-            // get coordinates of other train...
-            const x2 = this.$store.state.trainPositions[i].x;
-            const y2 = this.$store.state.trainPositions[i].y;
-            // console.log(`x1=${x1}, y1=${y1}, x2=${x2}, y2=${y2}`);
-
-            // Calculate distance between this train and other train...
-            const dist = Math.sqrt(
+        const trains = document.querySelectorAll('.train');
+        // console.log('trains=', trains);
+        let rect1, rect2;
+        let x1, y1, x2, y2, dist;
+        for (let j = 0; j < trains.length - 1; j++) {
+          for (let i = j + 1; i < trains.length; i++) {
+            rect1 = trains[j].getBoundingClientRect();
+            rect2 = trains[i].getBoundingClientRect();
+            // console.log('rect1=', rect1);
+            // console.log('rect2=', rect2);
+            x1 = rect1.left + rect1.width / 2;
+            y1 = rect1.top + rect1.height / 2;
+            x2 = rect2.left + rect2.width / 2;
+            y2 = rect2.top + rect2.height / 2;
+            dist = Math.sqrt(
               Math.pow(Math.abs(x1 - x2), 2) + Math.pow(Math.abs(y1 - y2), 2)
             );
             if (dist < this.collisionRadius) {
-              // we have a collision...
-              console.log('------------------COLLISION------------------');
+              // console.log('------------------COLLISION------------------');
               this.$root.$emit('collision', {
-                trainId1: this.id,
-                trainId2: this.$store.state.trainPositions[i].id,
+                trainId1: trains[j].id,
+                trainId2: trains[i].id,
               });
             }
           }
         }
       },
-
-      // ----------------------------------------------------
-
-      // emitCollision() {
-      //   this.$root.$emit('collision');
-      // },
 
       // ----------------------------------------------------
 

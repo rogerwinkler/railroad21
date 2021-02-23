@@ -7,11 +7,11 @@
     </div>
     <!-- <hr class="hr" /> -->
     <div class="version-date-copyright">
-      <span>Version: 1.0.1</span>
+      <span>Version: 1.0.6</span>
       <br />
-      <span>Date: 2022-02-22</span>
+      <span>Date: 2022-02-23</span>
       <br />
-      <span>&copy;2021 Roger Winkler, Alpirsbach</span>
+      <span>&copy;2021 Roger Winkler</span>
     </div>
     <!-- <hr class="hr" /> -->
     <div class="data-protection-header">Data Protection and Privacy</div>

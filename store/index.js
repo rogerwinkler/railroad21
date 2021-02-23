@@ -15,6 +15,7 @@ export const state = () => ({
 
   // Game status...
   gameOver: false,
+  gameStopped: false,
 
   // Active page. One of "login", "home", "qr-payment", "card-admin"
   // and "card-application".
@@ -51,8 +52,6 @@ export const state = () => ({
     { name: '110 km/h', intervalInMs: 10, distPerIntervalInPx: 3 },
     { name: '120 km/h', intervalInMs: 10, distPerIntervalInPx: 3.4 },
   ],
-
-  trainPositions: [],
 
   currentNoOfTrains: 2,
 
@@ -472,8 +471,11 @@ export const state = () => ({
 // -----------------------------------------------------------
 
 export const mutations = {
-  resetTrainPositions(state) {
-    state.trainPositions = [];
+  setGameStopped(state, bool) {
+    if (state.debug) {
+      console.log('store::index.js::setGameStopped::bool=', bool);
+    }
+    state.gameStopped = bool;
   },
 
   setGameOver(state, bool) {
@@ -481,17 +483,6 @@ export const mutations = {
       console.log('store::index.js::setGameOver::bool=', bool);
     }
     state.gameOver = bool;
-  },
-
-  setTrainPosition(state, payload) {
-    if (state.debug) {
-      console.log('store::index.js::setTrainPosition::payload=', payload);
-    }
-    state.trainPositions[parseInt(payload.id.substr(6)) - 1] = {
-      id: payload.id,
-      x: payload.left,
-      y: payload.top,
-    };
   },
 
   setPoweredSegmentOn(state, payload) {
