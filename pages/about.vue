@@ -7,9 +7,9 @@
     </div>
     <!-- <hr class="hr" /> -->
     <div class="version-date-copyright">
-      <span>Version: 1.0.6</span>
+      <span><strong>Version:</strong> 1.0.7</span>
       <br />
-      <span>Date: 2022-02-23</span>
+      <span><strong>Date:</strong> February 24, 2021</span>
       <br />
       <span>&copy;2021 Roger Winkler</span>
     </div>

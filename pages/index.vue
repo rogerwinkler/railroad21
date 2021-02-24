@@ -67,6 +67,11 @@
       this.$store.commit('setGameOver', false);
       this.$store.commit('setGameStopped', false);
 
+      let noOfTrains = parseInt(localStorage.getItem('noOfTrains'));
+      console.log('noOfTrains=', noOfTrains);
+      if (isNaN(noOfTrains)) noOfTrains = 1;
+      this.$store.commit('setCurrentNoOfTrains', noOfTrains);
+
       const cont = document.querySelector('.container');
       // console.log('cont=', cont);
       cont.addEventListener('click', this.handleClick);

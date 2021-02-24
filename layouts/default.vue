@@ -155,9 +155,9 @@
 
     methods: {
       goToHome() {
-        // console.log('default.vue::goToHome');
-        this.$router.push('/');
-        // location.href = '/';
+        console.log('default.vue::goToHome');
+        // this.$router.push('/');
+        location.href = '/';
         // this.$root.$emit('gotohome');
       },
 

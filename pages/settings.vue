@@ -12,7 +12,8 @@
           single-line
           @change="layoutChanged(layout)"
         ></v-select>
-        Select Speed
+
+        <!-- Select Speed
         <v-select
           v-model="speed"
           class="inp"
@@ -22,7 +23,8 @@
           return-object
           single-line
           @change="speedChanged(speed.name)"
-        ></v-select>
+        ></v-select> -->
+
         Select Number of Trains
         <v-select
           v-model="noOfTrains"
@@ -86,11 +88,12 @@
 
     methods: {
       layoutChanged(layout) {
-        // console.log('layoutChanged::layout=', layout);
+        console.log('layoutChanged::layout=', layout);
         // Get layout index out of text...
         const idx = parseInt(layout.substr(7)) - 1;
         // console.log('layout index=', idx);
         this.$store.commit('setCurrentLayout', idx);
+        localStorage.setItem('layoutIndex', idx.toString());
       },
 
       speedChanged(speed) {
@@ -101,6 +104,7 @@
       noOfTrainsChanged(noOfTrains) {
         // console.log('noOfTrainsChanged::noOfTrains=', noOfTrains);
         this.$store.commit('setCurrentNoOfTrains', noOfTrains);
+        localStorage.setItem('noOfTrains', noOfTrains);
       },
     },
   };

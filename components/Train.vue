@@ -123,7 +123,11 @@
 
       // Initialize layout[0] if none is set...
       if (this.$store.state.currentLayout.length === 0) {
-        this.$store.commit('setCurrentLayout', 0);
+        let layoutIdx = parseInt(localStorage.getItem('layoutIndex'));
+        console.log('layoutIdx=', layoutIdx);
+        if (isNaN(layoutIdx)) layoutIdx = 0;
+        console.log('layoutIdx=', layoutIdx);
+        this.$store.commit('setCurrentLayout', layoutIdx);
       }
       // console.log("this.layout=", this.layout);
 
