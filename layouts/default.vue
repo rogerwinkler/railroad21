@@ -42,23 +42,13 @@
         </v-list>
       </v-menu>
     </v-app-bar>
+
     <v-main>
       <v-container>
         <nuxt />
       </v-container>
     </v-main>
-    <!-- <v-footer
-      class="vfooter secondary--text"
-      fixed
-      app
-      color="primary"
-      dark
-      height="50px"
-    >
-      <v-spacer />
-      <span>&copy; {{ new Date().getFullYear() }} Roger Winkler</span>
-      <v-spacer />
-    </v-footer> -->
+
     <v-footer
       class="vfooter"
       style="justify-content: space-around"
@@ -155,7 +145,7 @@
 
     methods: {
       goToHome() {
-        console.log('default.vue::goToHome');
+        // console.log('default.vue::goToHome');
         // this.$router.push('/');
         location.href = '/';
         // this.$root.$emit('gotohome');
@@ -175,6 +165,7 @@
         this.$store.commit('enableMenuItem', 2);
         this.$store.commit('disableMenuItem', 3);
         this.$store.commit('setGameOver', false);
+        this.$store.commit('setPoints', 0);
         this.$root.$emit('reset');
       },
 
@@ -194,6 +185,11 @@
         }
         this.handleStop();
         this.$router.push('/settings');
+      },
+
+      handleClearHighScore() {
+        localStorage.setItem('highScore', 0);
+        this.handleReset();
       },
 
       menuItemClicked(itemNo) {
@@ -216,6 +212,9 @@
             this.handleSettings();
             break;
           case 5:
+            this.handleClearHighScore();
+            break;
+          case 6:
             this.$router.push('/about');
             break;
         }

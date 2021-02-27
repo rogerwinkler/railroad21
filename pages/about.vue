@@ -7,9 +7,9 @@
     </div>
     <!-- <hr class="hr" /> -->
     <div class="version-date-copyright">
-      <span><strong>Version:</strong> 1.0.7</span>
+      <span><strong>Version:</strong> 1.1.0</span>
       <br />
-      <span><strong>Date:</strong> February 24, 2021</span>
+      <span><strong>Date:</strong> February 27, 2021</span>
       <br />
       <span>&copy;2021 Roger Winkler</span>
     </div>
@@ -34,6 +34,7 @@
       this.$store.commit('disableMenuItem', 1);
       this.$store.commit('disableMenuItem', 2);
       this.$store.commit('disableMenuItem', 3);
+      this.$store.commit('disableMenuItem', 5);
     },
 
     // destroyed() {

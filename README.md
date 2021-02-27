@@ -4,14 +4,15 @@ _Railroad21_ is a railroad game. As a PWA it can be attached to mobile's homescr
 
 ## Status
 
-| Status Type     | Description                                                            |
-| :-------------- | :--------------------------------------------------------------------- |
-| Current Version | 1.0.7                                                                  |
-| Status          | Stable version. Simple game playable with multiple layouts and trains. |
+| Status Type     | Description                                                                                            |
+| :-------------- | :----------------------------------------------------------------------------------------------------- |
+| Current Version | 1.1.0                                                                                                  |
+| Status          | Stable version. Game playable with scoring, 15 game levels, 2 game modes, multiple layouts and trains. |
 
 #### Quick Links
 
 - [Build Setup](#build-setup)
+- [Rules of the Game](#rules-of-the-game)
 - [Architecture and Software Stack](#architecture-and-software-stack)
 - [Roadmap](#roadmap)
 - [Resources](#resources)
@@ -36,6 +37,98 @@ $ yarn start
 $ yarn generate
 ```
 
+## Rules of the Game
+
+### Level 1
+
+- Starting with 2 trains and layout 1.
+- When 500 points are reached, forward to level 2.
+- Speed range: 40 - 80 km/h.
+
+### Level 2
+
+- Starting with 2 trains and layout 2.
+- When 500 points are reached, forward to Level 3.
+- Speed range: 40 - 80 km/h.
+
+### Level 3
+
+- Starting with 2 trains and layout 3.
+- When 500 points are reached, forward to Level 4.
+- Speed range: 50 - 90 km/h.
+
+### Level 4
+
+- Starting with 2 trains and layout 4.
+- When 500 points are reached, forward to Level 5.
+- Speed range: 50 - 90 km/h.
+
+### Level 5
+
+- Starting with 2 trains and layout 5.
+- When 500 points are reached, forward to Level 6.
+- Speed range: 60 - 100 km/h.
+
+### Level 6
+
+- Starting with 2 trains and layout 6.
+- When 500 points are reached, forward to Level 7.
+- Speed range: 60 - 100 km/h.
+
+### Level 7
+
+- Starting with 2 trains and layout 7.
+- When 500 points are reached, forward to Level 8.
+- Speed range: 70 - 110 km/h.
+
+### Level 8
+
+- Starting with 3 trains and Layout 9.
+- When 500 points are reached, forward to Level 9.
+- Speed range: 40 - 80 km/h.
+
+### Level 9
+
+- Starting with 3 trains and Layout 10.
+- When 500 points are reached, forward to Level 10.
+- Speed range: 50 - 90 km/h.
+
+### Level 10
+
+- Starting with 3 trains and Layout 11.
+- When 500 points are reached, forward to Level 11.
+- Speed range: 60 - 100 km/h.
+
+### Level 11
+
+- Starting with 3 trains and Layout 12.
+- When 500 points are reached, forward to Level 12.
+- Speed range: 70 - 110 km/h.
+
+### Level 12
+
+- Starting with 3 trains and Layout 13.
+- When 500 points are reached, forward to Level 13.
+- Speed range: 70 - 110 km/h.
+
+### Level 13
+
+- Starting with 3 trains and Layout 14.
+- When 500 points are reached, forward to Level 14.
+- Speed range: 80 - 120 km/h.
+
+### Level 14
+
+- Starting with 3 trains and Layout 15.
+- When 500 points are reached, forward to Level 15.
+- Speed range: 80 - 120 km/h.
+
+### Level 15
+
+- Starting with 4 trains and Layout 2.
+- When 500 points are reached, level 15 is mastered. There are no further levels at the moment.
+- Speed range: 50 - 90 km/h.
+
 ## Architecture and Software Stack
 
 _Railroad21_ is built with [Nuxt](https://nuxtjs.org/) and [Vuetify](https://vuetifyjs.com/en/). It's built so that it can be statically served from any web server.
@@ -48,15 +141,18 @@ _**Note**: This roadmap is subject to change. Functionalities may be added, remo
 
 - Game basics.
 - Simple images and graphics to represent locomotive, tracks and switches.
-- Just one single train (locomotive).
+- Multiple trains (locomotive).
 - The game will provide simple, standard layouts (only a few).
 - No scoring, no game levels.
-- Control through track switches.
+- Control through track switches and power on/off to track segments.
+- Track segments with power are black. Track segments with powered turned off are grey.
 
 ### Release 1.1
 
+- Add game mode. Game mode is one of 'play' or 'trial'. 'play' is normal game mode. In game mode 'trial', layout and number of trains can freely be chosen.
+- Add scoring. The faster the speed of a train the more points per segment travelled are earned. No points are earned whenever there is a power interruption somewhere.
+- Power in a segment can be interrupted by clicking the tracks in a segment. A train in that segment or travelling into that segment will be stopping.
 - Add game levels, more layouts, more complex layouts.
-- Two or more trains with two different speeds and two different lengths.
 
 ### Release 1.2
 

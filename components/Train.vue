@@ -76,6 +76,7 @@
           Math.pow(this.$store.state.TRAIN_MAX_WIDTH / 2, 2) +
             Math.pow(this.$store.state.TRAIN_MAX_HEIGHT / 2, 2)
         ),
+        speedIdx: null, // trains speed defined as index into this.$store.state.speeds[].
       };
     },
 
@@ -124,9 +125,9 @@
       // Initialize layout[0] if none is set...
       if (this.$store.state.currentLayout.length === 0) {
         let layoutIdx = parseInt(localStorage.getItem('layoutIndex'));
-        console.log('layoutIdx=', layoutIdx);
+        // console.log('layoutIdx=', layoutIdx);
         if (isNaN(layoutIdx)) layoutIdx = 0;
-        console.log('layoutIdx=', layoutIdx);
+        // console.log('layoutIdx=', layoutIdx);
         this.$store.commit('setCurrentLayout', layoutIdx);
       }
       // console.log("this.layout=", this.layout);
@@ -140,16 +141,9 @@
       this.$root.$on('collision', this.handleCollision);
       // this.$root.$on('destroy', this.handleDestroy);
 
-      // Set start position, angle and speed by random...
-      const idx = randomNumber(0, this.$store.state.speeds.length - 1);
-      this.$store.commit('setCurrentSpeed', this.$store.state.speeds[idx].name);
-      this.intervalInMs = this.$store.state.speeds[idx].intervalInMs;
-      this.distPerIntervalInPx = this.$store.state.speeds[
-        idx
-      ].distPerIntervalInPx;
-      this.initTrain();
-      // Give setup some time to finish...
-      setTimeout(this.startOrContinue, 100);
+      // Set speed and start position by random...
+      this.setRandomSpeedPerLevel();
+      this.reset();
     },
 
     // destroyed() {
@@ -159,12 +153,21 @@
     methods: {
       // ----------------------------------------------------
 
-      // handleDestroy() {
-      //   this.$destroy();
-      //   if (this.$el && this.$el.parentNode) {
-      //     this.$el.parentNode.removeChild(this.$el);
-      //   }
-      // },
+      setRandomSpeedPerLevel() {
+        let gameLevel = parseInt(localStorage.getItem('gameLevel'));
+        if (isNaN(gameLevel)) gameLevel = 1;
+
+        this.speedIdx = randomNumber(
+          this.$store.state.gameLevels[gameLevel - 1].minSpeedIdx,
+          this.$store.state.gameLevels[gameLevel - 1].maxSpeedIdx
+        );
+        this.intervalInMs = this.$store.state.speeds[
+          this.speedIdx
+        ].intervalInMs;
+        this.distPerIntervalInPx = this.$store.state.speeds[
+          this.speedIdx
+        ].distPerIntervalInPx;
+      },
 
       // ----------------------------------------------------
 
@@ -296,7 +299,6 @@
 
       initTrain() {
         // console.log('initTrain::this.id=', this.id);
-        // this.layout = this.$store.state.currentLayout;
         this.mode = 'stopped';
         this.hasBeenRun = false;
         this.setStartPosByRandom();
@@ -903,6 +905,13 @@
         }
 
         this.moveSegment();
+
+        // Increase points if no power interruption...
+        const segmentsWithoutPower = document.querySelectorAll('.power-off');
+        if (segmentsWithoutPower.length === 0) {
+          const pointIncrement = Math.floor(this.speedIdx / 2) + 1;
+          this.$store.commit('incPoints', pointIncrement);
+        }
       },
     },
   };
