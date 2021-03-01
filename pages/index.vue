@@ -141,8 +141,9 @@
 
       points() {
         if (
+          this.gameMode === 'play' &&
           this.$store.state.points >=
-          this.$store.state.gameLevels[this.gameLevel - 1].pointsNeeded
+            this.$store.state.gameLevels[this.gameLevel - 1].pointsNeeded
         ) {
           this.$store.commit('setGameOver', true);
         }

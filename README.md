@@ -6,7 +6,7 @@ _Railroad21_ is a railroad game. As a PWA it can be attached to mobile's homescr
 
 | Status Type     | Description                                                                                            |
 | :-------------- | :----------------------------------------------------------------------------------------------------- |
-| Current Version | 1.1.0                                                                                                  |
+| Current Version | 1.1.1                                                                                                  |
 | Status          | Stable version. Game playable with scoring, 15 game levels, 2 game modes, multiple layouts and trains. |
 
 #### Quick Links
